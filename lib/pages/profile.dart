@@ -1,125 +1,91 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyProfilePage(title: 'My Profile Page'),
-      
-    );
-  }
-}
-
-class MyProfilePage extends StatefulWidget {
-  const MyProfilePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyProfilePage> createState() => _MyProfilePageState();
-}
-
-class _MyProfilePageState extends State<MyProfilePage> {
-  @override
-  Widget build(BuildContext context) {
+    
     return Scaffold(
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center, 
-          children: [
-            Column(
-              children: [
-                const Card(
-                  
-                  
-                  child: Text("Your big backed mama")),
-              ],
-            ),
-            Text(
-              style: Theme.of(context).textTheme.headlineLarge,
-              'Big Card with Profile Picture Goes Here',
-            ),
-            const NameSection(),
-            const BioSection(),
-            
-          ],
+      backgroundColor: const Color.fromARGB(255, 204, 221, 226),
+        body: Center(
+            child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                height: 120,
+                width: 120,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      image: AssetImage('lib/images/beetlejuice.jpg')),
+                ),
+              ),
+              const Text("Beetle Juice",
+                  style: TextStyle(fontSize: 20, 
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 111, 88, 75)))
+            ],
+          ),
         ),
-      ),
+        const Divider(thickness: 2),
+        const Text("Bio:",
+                style: TextStyle(
+                fontWeight: FontWeight.bold, 
+                color: Color.fromARGB(255, 111, 88, 75)
+
+        ),),
+        const Divider(thickness: 2),
+        const TextSection(bio: "My favorite part of a retwist is being able to feel my scalp.")
+      ],
+    ),
+    ),
     );
   }
 }
 
-class BioSection extends StatefulWidget {
-  const BioSection({super.key});
+// class ImageSection extends StatelessWidget {
+//   const ImageSection({super.key, required this.image});
 
-  @override
-  State<BioSection> createState() => _BioSectionState();
-}
+//   final String image;
 
-class _BioSectionState extends State<BioSection> {
-  String bio = "";
+//   @override
+//   Widget build(BuildContext context) {
+//     return Image.asset(
+//       image,
+//       width: 400,
+//       height: 120,
+//       fit: BoxFit.cover,
+//     );
+//   }
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        padding: const EdgeInsets.all(5), 
-        alignment: Alignment.center,
-        child: const Text('Nobody talk to me! I hate everyone!'
-        ),
-      ),
-    ],
-    );
-  }
-}
+class TextSection extends StatelessWidget {
+  const TextSection({
+    super.key,
+    required this.bio,
+  });
 
-class NameSection extends StatefulWidget {
-  const NameSection({super.key});
-
-  @override
-  State<NameSection> createState() => _NameSectionState();
-}
-
-class _NameSectionState extends State<NameSection> {
-  String name = "";
+  final String bio;
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        padding: const EdgeInsets.all(5), 
-        alignment: Alignment.center,
-        child: const Text('all lowercase name'),
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: Text(
+        bio,
+        softWrap: true,
       ),
-    ],
     );
   }
 }
