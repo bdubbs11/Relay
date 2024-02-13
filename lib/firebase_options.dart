@@ -50,21 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDaNsQpzZAzJ7CWyeNXS29DMTMqwwx6K4E',
-    appId: '1:959671907413:web:72daf01715f985503550dc',
-    messagingSenderId: '959671907413',
-    projectId: 'authtut-4aed0',
-    authDomain: 'authtut-4aed0.firebaseapp.com',
-    databaseURL: 'https://authtut-4aed0-default-rtdb.firebaseio.com',
-    storageBucket: 'authtut-4aed0.appspot.com',
+    apiKey: 'AIzaSyAlgXyAUPu6mQMeL14cnEMwK6-bUPX6m3A',
+    appId: '1:806324430366:web:6576fa414095add0edb00f',
+    messagingSenderId: '806324430366',
+    projectId: 'swerelayapp',
+    authDomain: 'swerelayapp.firebaseapp.com',
+    storageBucket: 'swerelayapp.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCtKje6nv0KLv8iR-KcRPrt59PDF7hDEUQ',
-    appId: '1:959671907413:android:97c7e6fa8a8a77183550dc',
-    messagingSenderId: '959671907413',
-    projectId: 'authtut-4aed0',
-    databaseURL: 'https://authtut-4aed0-default-rtdb.firebaseio.com',
-    storageBucket: 'authtut-4aed0.appspot.com',
+    apiKey: 'AIzaSyBEXEd-7ABiMkvl0dEey6_yAUhhZGwYC5E',
+    appId: '1:806324430366:android:f48e2e9b1c676fb4edb00f',
+    messagingSenderId: '806324430366',
+    projectId: 'swerelayapp',
+    storageBucket: 'swerelayapp.appspot.com',
   );
 }

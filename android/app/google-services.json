@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "806324430366",
+    "project_id": "swerelayapp",
+    "storage_bucket": "swerelayapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806324430366:android:f48e2e9b1c676fb4edb00f",
+        "android_client_info": {
+          "package_name": "com.example.relay"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEXEd-7ABiMkvl0dEey6_yAUhhZGwYC5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806324430366:android:12ac5342984a0156edb00f",
+        "android_client_info": {
+          "package_name": "com.example.relay_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEXEd-7ABiMkvl0dEey6_yAUhhZGwYC5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

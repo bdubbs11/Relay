@@ -4,22 +4,24 @@ import "../colors/colors.dart";
 import '../components/textfield.dart';
 import '../components/button.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   final Function()? onTap;
-  LoginPage({super.key, required this.onTap});
+  RegisterPage({super.key, required this.onTap});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   // text editing controllers
   final emailController = TextEditingController();
 
   final passwordController = TextEditingController();
 
-// sign user in
-void signUserIn() async{
+  final confirmPasswordController = TextEditingController();
+
+// sign user up
+void signUserUp() async{
 
   // show loading circle 
   showDialog(
@@ -31,12 +33,18 @@ void signUserIn() async{
       },
     );
 
-  // try sign in
+  // try signing up
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      // check if password is confirmed
+      if(passwordController.text == confirmPasswordController.text){
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
+      }else{
+        // show error message, passwords don't match
+        showErrorMessage("Passwords don't match!");
+      }
       // pop the loading circle
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
@@ -80,7 +88,7 @@ void signUserIn() async{
               // Login text
               // optional logo or something around here
               const Text(
-                'Login',
+                'Sign Up',
                 style: TextStyle(
                   color: AppColors.grayBlue,
                   fontSize: 50,
@@ -108,29 +116,23 @@ void signUserIn() async{
 
               const SizedBox(height: 10), 
 
-              // forgot password
-              const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Forgot Password?',
-                        style: TextStyle(color: AppColors.cloudBlue),
-                        ),
-                    ],
-                  ),
-                ),
+              // confirm password field
 
-                const SizedBox(height: 20), 
+              MyTextField(
+                controller: confirmPasswordController,
+                hintText: " Confirm Password", 
+                obscureText: true,
+              ),
+
+              const SizedBox(height: 50),  
 
                 // sign in button
                 Button(
-                  text: 'Sign In',
-                  onTap: signUserIn,
+                  text: 'Sign Up',
+                  onTap: signUserUp,
                 ),
 
-                const SizedBox(height: 200),
+                const SizedBox(height: 120),
                 // or continue with i am not adding this unless we discuss something else
 
 
@@ -154,7 +156,7 @@ void signUserIn() async{
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Don\'t have an account?',
+                      'Already have an account?',
                       style: TextStyle(color: AppColors.cloudBlue),
                     ),
                     const SizedBox(width: 4),
@@ -162,7 +164,7 @@ void signUserIn() async{
                       onTap: widget.onTap,
                       child: 
                       const Text(
-                        'Sign up',
+                        'Login now',
                         style :TextStyle(
                           color: AppColors.skyBlue,
                           fontWeight: FontWeight.bold,
