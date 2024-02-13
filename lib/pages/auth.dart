@@ -4,7 +4,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relay/pages/loginorregister.dart';
-
+import 'package:relay/pages/auth.dart';
 import 'package:relay/pages/myhomepage.dart';
 
 

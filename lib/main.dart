@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:relay/pages/auth.dart';
 import 'package:relay/pages/loginorregister.dart';
 import 'firebase_options.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       // if the user is not logged in they will go to the login page
-      home: LoginOrRegisterPage(),
+      home: AuthPage(),
       // if the user is logged in they will simply go to the home page
     );
   }
