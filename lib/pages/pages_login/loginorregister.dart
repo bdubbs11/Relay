@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:relay/pages/login.dart';
-import 'package:relay/pages/register.dart';
+import 'package:relay/pages/pages_login/login.dart';
+import 'package:relay/pages/pages_login/register.dart';
 
 
 

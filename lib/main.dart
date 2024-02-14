@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:relay/pages/auth.dart';
-import 'package:relay/pages/loginorregister.dart';
+import 'package:relay/pages/pages_login/auth.dart';
+import 'package:relay/pages/pages_login/loginorregister.dart';
 import 'firebase_options.dart';
 
 void main() async{

@@ -1,27 +1,25 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import "../colors/colors.dart";
-import '../components/textfield.dart';
-import '../components/button.dart';
+import '../../colors/colors.dart';
+import '../../components/textfield.dart';
+import '../../components/button.dart';
 
-class RegisterPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   final Function()? onTap;
-  RegisterPage({super.key, required this.onTap});
+  LoginPage({super.key, required this.onTap});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _LoginPageState extends State<LoginPage> {
   // text editing controllers
   final emailController = TextEditingController();
 
   final passwordController = TextEditingController();
 
-  final confirmPasswordController = TextEditingController();
-
-// sign user up
-void signUserUp() async{
+// sign user in
+void signUserIn() async{
 
   // show loading circle 
   showDialog(
@@ -33,18 +31,12 @@ void signUserUp() async{
       },
     );
 
-  // try signing up
+  // try sign in
     try {
-      // check if password is confirmed
-      if(passwordController.text == confirmPasswordController.text){
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
-      }else{
-        // show error message, passwords don't match
-        showErrorMessage("Passwords don't match!");
-      }
       // pop the loading circle
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
@@ -88,7 +80,7 @@ void signUserUp() async{
               // Login text
               // optional logo or something around here
               const Text(
-                'Sign Up',
+                'Login',
                 style: TextStyle(
                   color: AppColors.grayBlue,
                   fontSize: 50,
@@ -116,23 +108,29 @@ void signUserUp() async{
 
               const SizedBox(height: 10), 
 
-              // confirm password field
+              // forgot password
+              const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Forgot Password?',
+                        style: TextStyle(color: AppColors.cloudBlue),
+                        ),
+                    ],
+                  ),
+                ),
 
-              MyTextField(
-                controller: confirmPasswordController,
-                hintText: " Confirm Password", 
-                obscureText: true,
-              ),
-
-              const SizedBox(height: 50),  
+                const SizedBox(height: 20), 
 
                 // sign in button
                 Button(
-                  text: 'Sign Up',
-                  onTap: signUserUp,
+                  text: 'Sign In',
+                  onTap: signUserIn,
                 ),
 
-                const SizedBox(height: 120),
+                const SizedBox(height: 200),
                 // or continue with i am not adding this unless we discuss something else
 
 
@@ -156,7 +154,7 @@ void signUserUp() async{
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Already have an account?',
+                      'Don\'t have an account?',
                       style: TextStyle(color: AppColors.cloudBlue),
                     ),
                     const SizedBox(width: 4),
@@ -164,7 +162,7 @@ void signUserUp() async{
                       onTap: widget.onTap,
                       child: 
                       const Text(
-                        'Login now',
+                        'Sign up',
                         style :TextStyle(
                           color: AppColors.skyBlue,
                           fontWeight: FontWeight.bold,
