@@ -16,9 +16,9 @@ class _MyHomePageState extends State<MyHomePage> {
   final user = FirebaseAuth.instance.currentUser!;
   //int currentIndex = 0; // navigation
 
-   // sign user out
-  void signUserOut(){
-     FirebaseAuth.instance.signOut();
+  // sign user out
+  void signUserOut() {
+    FirebaseAuth.instance.signOut();
   }
 
   @override
@@ -38,11 +38,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
 
-
       // navbar stuff
       bottomNavigationBar: Container(
         //currentIndex: currentIndex, // navagation btwn pages
-        //onTap: (index) => setState(() => currentIndex = index), 
+        //onTap: (index) => setState(() => currentIndex = index),
 
         color: AppColors.lightBrown,
         child: Padding(
@@ -84,8 +83,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-
-
     );
   }
 }
