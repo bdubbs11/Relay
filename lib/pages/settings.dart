@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:relay/components/button.dart';
+import '../colors/colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,15 +33,20 @@ class SettingsPage extends StatefulWidget{
 class _SettingsPage extends State<SettingsPage> {
   String _username = "Dev";
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _username;
-    });
+  void changeUser() async{
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          title: Center(
+            child: Text(
+              "Change the User",
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -60,48 +67,91 @@ class _SettingsPage extends State<SettingsPage> {
         // the App.build method, and use it to set our appbar title.
         title: const Text("Settings Page")
       ),
-      body: Center(
-        
-        child: Column(
-          
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const Text(
-              'Profile',
-            ),
-            TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: '$_username',
-            ),
-            ),
-            const Text(
-              'BIO',
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'BIO',
+      body: const SafeArea(
+        child: Center(    
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:[
+              Row(
+                children:[
+                  Text(
+                    'Profile',
+                    style: TextStyle(
+                    color: AppColors.grayBlue,
+                    fontSize: 30,
+                    ),
+                  )
+                ]
               ),
-              ),
-            ),
-            const Text(
-              'Profile Picture',
-            ),
-            const Text(
+
+              const SizedBox(height: 15),
+
+              Row(
+                children:[
+                  Text(
+                    'Username',
+                    style: TextStyle(
+                    color: AppColors.grayBlue,
+                    fontSize: 20,
+                    ),
+                  )
+                ]
               
-              'Color Scheme',
-            ),
-          ],
+                
+              
+              ),
+
+              const SizedBox(height: 15),
+
+              Row(
+                children:[
+                  Text(
+                    'Bio',
+                    style: TextStyle(
+                    color: AppColors.grayBlue,
+                    fontSize: 20,
+                    ),
+                  )
+                ]
+
+              ),
+
+              const SizedBox(height: 15),
+
+              Row(
+
+                children:[
+                  Text(
+                    'Picture',
+                    style: TextStyle(
+                    color: AppColors.grayBlue,
+                    fontSize: 20,
+                    ),
+                  )
+                ]
+              ),
+
+              const SizedBox(height: 15),
+
+              Row(
+                children:[
+                  Text(
+                    'Settings',
+                    style: TextStyle(
+                    color: AppColors.grayBlue,
+                    fontSize: 30,
+                    ),
+                  )
+                ]
+              ),
+
+              const SizedBox(height: 15),
+
+            ]
+          
+          ), // This trailing comma makes auto-formatting nicer for build methods.
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
