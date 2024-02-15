@@ -4,6 +4,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:relay/colors/colors.dart';
 import 'package:relay/pages/chatpage.dart';
 import 'package:relay/pages/profile.dart';
+import 'package:relay/pages/settings.dart';
 
 class MyHomePage extends StatefulWidget { // changed this to stateful widget
   const MyHomePage({super.key});
@@ -76,6 +77,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const ProfilePage()),
+                  );
+                },
+              ),
+              GButton(
+                icon: Icons.settings,
+                text: "Settings",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SettingsPage()),
                   );
                 },
               ),

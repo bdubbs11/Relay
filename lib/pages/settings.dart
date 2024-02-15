@@ -2,26 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:relay/components/button.dart';
 import '../colors/colors.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Settings Page',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const SettingsPage(),
-    );
-  }
-}
 
 class SettingsPage extends StatefulWidget{
   const SettingsPage({super.key});
