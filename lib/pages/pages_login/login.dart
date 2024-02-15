@@ -29,7 +29,7 @@ void signUserIn() async{
           child: CircularProgressIndicator(),
         );
       },
-    );
+  );
 
   // try sign in
     try {

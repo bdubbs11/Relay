@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relay/components/button.dart';
 import '../colors/colors.dart';
@@ -18,13 +19,14 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SettingsPage(),
+      home: SettingsPage(),
     );
   }
 }
 
 class SettingsPage extends StatefulWidget{
-  const SettingsPage({super.key});
+  final user = FirebaseAuth.instance.currentUser!;
+  SettingsPage({super.key});
 
   @override
   State<SettingsPage> createState() => _SettingsPage();
@@ -41,7 +43,7 @@ class _SettingsPage extends State<SettingsPage> {
           title: Center(
             child: Text(
               "Change the User",
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
             ),
           ),
         );
@@ -62,12 +64,12 @@ class _SettingsPage extends State<SettingsPage> {
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: AppColors.lightBrown
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: const Text("Settings Page")
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: Center(    
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,10 +96,15 @@ class _SettingsPage extends State<SettingsPage> {
                     color: AppColors.grayBlue,
                     fontSize: 20,
                     ),
-                  )
+                  ),
+
+                  Button(
+                  text: 'Change Username',
+                  onTap: changeUser,
+                  ),
                 ]
               
-                
+                  
               
               ),
 
@@ -111,7 +118,12 @@ class _SettingsPage extends State<SettingsPage> {
                     color: AppColors.grayBlue,
                     fontSize: 20,
                     ),
-                  )
+                  ),
+
+                  Button(
+                  text: 'Change Bio',
+                  onTap: changeUser,
+                  ),
                 ]
 
               ),
@@ -127,7 +139,12 @@ class _SettingsPage extends State<SettingsPage> {
                     color: AppColors.grayBlue,
                     fontSize: 20,
                     ),
-                  )
+                  ),
+
+                  Button(
+                  text: 'Change Profile Picture',
+                  onTap: changeUser,
+                  ),
                 ]
               ),
 
