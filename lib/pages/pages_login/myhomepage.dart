@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:relay/colors/colors.dart';
+import 'package:relay/pages/chatpage.dart';
 
 class MyHomePage extends StatefulWidget { // changed this to stateful widget
   MyHomePage({super.key});
@@ -43,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
         //onTap: (index) => setState(() => currentIndex = index), 
 
         color: AppColors.lightBrown,
-        child: const Padding(
+        child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
           child: GNav(
             backgroundColor: AppColors.lightBrown,
@@ -61,7 +62,13 @@ class _MyHomePageState extends State<MyHomePage> {
               GButton(
                 icon: Icons.add_comment,
                 text: "Create Chat",
-              ), // add_circle 
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatPage(contactName: 'Chris Haynes', userName: 'Adrian Lopez',)),
+                  );
+                },
+              ),
               GButton(
                 icon: Icons.person,
                 text: "Profile",

@@ -25,35 +25,35 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget chat() {
-  return ListView.builder(
-    itemCount: messages.length,
-    itemBuilder: (context, index) {
-      if (index < messages.length) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12.0),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(10.0),
+    return ListView.builder(
+      itemCount: messages.length,
+      itemBuilder: (context, index) {
+        if (index < messages.length) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Text(
+                    messages[index],
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
-                child: Text(
-                  messages[index],
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
-          ),
-        );
-      } else {
-        return null; // or any other fallback widget if needed
-      }
-    },
-  );
-}
+              ],
+            ),
+          );
+        } else {
+          return null; // or any other fallback widget if needed
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +63,12 @@ class _ChatPageState extends State<ChatPage> {
         elevation: 0,
         title: Text(widget.contactName),
         backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       backgroundColor: Colors.grey[300],
       body: SafeArea(
