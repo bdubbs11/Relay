@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relay/components/button.dart';
+import 'package:relay/components/navbar.dart';
 import '../colors/colors.dart';
 
 
@@ -13,7 +14,7 @@ class SettingsPage extends StatefulWidget{
 }
 
 class _SettingsPage extends State<SettingsPage> {
-  String _username = "Dev";
+  final String _username = "Dev";
 
   void changeUser() async{
     showDialog(
@@ -23,7 +24,7 @@ class _SettingsPage extends State<SettingsPage> {
           title: Center(
             child: Text(
               "Change the User",
-              style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+              style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
             ),
           ),
         );
@@ -54,7 +55,7 @@ class _SettingsPage extends State<SettingsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children:[
-              Row(
+              const Row(
                 children:[
                   Text(
                     'Profile',
@@ -70,7 +71,7 @@ class _SettingsPage extends State<SettingsPage> {
 
               Row(
                 children:[
-                  Text(
+                  const Text(
                     'Username',
                     style: TextStyle(
                     color: AppColors.grayBlue,
@@ -92,7 +93,7 @@ class _SettingsPage extends State<SettingsPage> {
 
               Row(
                 children:[
-                  Text(
+                  const Text(
                     'Bio',
                     style: TextStyle(
                     color: AppColors.grayBlue,
@@ -113,7 +114,7 @@ class _SettingsPage extends State<SettingsPage> {
               Row(
 
                 children:[
-                  Text(
+                  const Text(
                     'Picture',
                     style: TextStyle(
                     color: AppColors.grayBlue,
@@ -130,7 +131,7 @@ class _SettingsPage extends State<SettingsPage> {
 
               const SizedBox(height: 15),
 
-              Row(
+              const Row(
                 children:[
                   Text(
                     'Settings',
@@ -149,6 +150,7 @@ class _SettingsPage extends State<SettingsPage> {
           ), // This trailing comma makes auto-formatting nicer for build methods.
         ),
       ),
+      bottomNavigationBar: MyNavBar(),
     );
   }
 }

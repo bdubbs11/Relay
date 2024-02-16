@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:relay/components/navbar.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -50,6 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ],
     ),
     ),
+    bottomNavigationBar: MyNavBar(),
     );
   }
 }

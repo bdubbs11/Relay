@@ -4,7 +4,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relay/pages/pages_login/loginorregister.dart';
-import 'package:relay/pages/pages_login/auth.dart';
 import 'package:relay/pages/pages_login/myhomepage.dart';
 
 
@@ -25,11 +24,11 @@ class AuthPage extends StatelessWidget {
         builder: (context, snapshot) {
           // if the user is logged in show the home page
           if(snapshot.hasData){
-            return MyHomePage(); // devons home page
+            return const MyHomePage(); // devons home page
           }
           // if the user isn't logged in show the login/register page
           else{
-            return LoginOrRegisterPage(); //LoginOrRegisterPage()
+            return const LoginOrRegisterPage(); //LoginOrRegisterPage()
           }
         },
       ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:relay/colors/colors.dart';
+import 'package:relay/components/navbar.dart';
+import 'package:relay/pages/pages_login/myhomepage.dart';
 
 class ChatPage extends StatefulWidget {
   final String contactName;
@@ -37,12 +40,12 @@ class _ChatPageState extends State<ChatPage> {
                 Container(
                   padding: const EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
-                    color: Colors.blue,
+                    color: AppColors.skyBlue,
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: Text(
                     messages[index],
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
               ],
@@ -62,12 +65,15 @@ class _ChatPageState extends State<ChatPage> {
         centerTitle: true,
         elevation: 0,
         title: Text(widget.contactName),
-        backgroundColor: Colors.blue,
+        backgroundColor: AppColors.skyBlue,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
-          },
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MyHomePage()),
+                  );
+                },
         ),
       ),
       backgroundColor: Colors.grey[300],
@@ -108,6 +114,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
       ),
+      bottomNavigationBar: MyNavBar(),
     );
   }
 }
