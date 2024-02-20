@@ -4,9 +4,7 @@ import 'package:relay/components/button.dart';
 import 'package:relay/components/navbar.dart';
 import '../colors/colors.dart';
 
-
-class SettingsPage extends StatefulWidget{
-  final user = FirebaseAuth.instance.currentUser!;
+class SettingsPage extends StatefulWidget {
   SettingsPage({super.key});
 
   @override
@@ -14,18 +12,46 @@ class SettingsPage extends StatefulWidget{
 }
 
 class _SettingsPage extends State<SettingsPage> {
+  final user = FirebaseAuth.instance.currentUser!;
+  final userNameController = TextEditingController();
   final String _username = "Dev";
 
-  void changeUser() async{
+  void changeUserName() {
     showDialog(
       context: context,
       builder: (context) {
-        return const AlertDialog(
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
+     user.updateDisplayName("${userNameController}");
+     Navigator.pop(context);
+  }
+
+  void changeUser() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
           title: Center(
-            child: Text(
-              "Change the User",
-              style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-            ),
+            child: Column(children: [
+              Text(
+                "Change the Username",
+                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+              ),
+              TextField(
+                controller: userNameController,
+              ),
+              ElevatedButton(
+                  onPressed: changeUserName,
+                  style: ButtonStyle(
+                      elevation: MaterialStateProperty.all(8),
+                      backgroundColor:
+                          MaterialStateProperty.all(AppColors.cloudBlue)),
+                  child: const Text('Submit')),
+            ]),
           ),
         );
       },
@@ -42,118 +68,84 @@ class _SettingsPage extends State<SettingsPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: AppColors.lightBrown,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: const Text("Settings Page")
-      ),
+          // TRY THIS: Try changing the color here to a specific color (to
+          // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
+          // change color while the other colors stay the same.
+          backgroundColor: AppColors.lightBrown,
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: const Text("Settings Page")),
       body: SafeArea(
-        child: Center(    
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children:[
-              const Row(
-                children:[
-                  Text(
-                    'Profile',
-                    style: TextStyle(
-                    color: AppColors.grayBlue,
-                    fontSize: 30,
-                    ),
-                  )
-                ]
+        child: Center(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const Row(children: [
+              Text(
+                'Profile',
+                style: TextStyle(
+                  color: AppColors.grayBlue,
+                  fontSize: 30,
+                ),
+              )
+            ]),
+            const SizedBox(height: 15),
+           
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text(
+                "Username: ${user.email!}",
+                style: TextStyle(
+                  color: AppColors.grayBlue,
+                  fontSize: 20,
+                ),
               ),
-
-              const SizedBox(height: 15),
-
-              Row(
-                children:[
-                  const Text(
-                    'Username',
-                    style: TextStyle(
-                    color: AppColors.grayBlue,
-                    fontSize: 20,
-                    ),
-                  ),
-
-                  Button(
-                  text: 'Change Username',
-                  onTap: changeUser,
-                  ),
-                ]
-              
-                  
-              
+              Button(
+                text: 'Change Username',
+                onTap: changeUser,
               ),
-
-              const SizedBox(height: 15),
-
-              Row(
-                children:[
-                  const Text(
-                    'Bio',
-                    style: TextStyle(
-                    color: AppColors.grayBlue,
-                    fontSize: 20,
-                    ),
-                  ),
-
-                  Button(
-                  text: 'Change Bio',
-                  onTap: changeUser,
-                  ),
-                ]
-
+            ]),
+            const SizedBox(height: 15),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text(
+                'Bio',
+                style: TextStyle(
+                  color: AppColors.grayBlue,
+                  fontSize: 20,
+                ),
               ),
-
-              const SizedBox(height: 15),
-
-              Row(
-
-                children:[
-                  const Text(
-                    'Picture',
-                    style: TextStyle(
-                    color: AppColors.grayBlue,
-                    fontSize: 20,
-                    ),
-                  ),
-
-                  Button(
-                  text: 'Change Profile Picture',
-                  onTap: changeUser,
-                  ),
-                ]
+              Button(
+                text: 'Change Biography',
+                onTap: changeUser,
               ),
-
-              const SizedBox(height: 15),
-
-              const Row(
-                children:[
-                  Text(
-                    'Settings',
-                    style: TextStyle(
-                    color: AppColors.grayBlue,
-                    fontSize: 30,
-                    ),
-                  )
-                ]
+            ]),
+            const SizedBox(height: 15),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text(
+                'Picture',
+                style: TextStyle(
+                  color: AppColors.grayBlue,
+                  fontSize: 20,
+                ),
               ),
-
-              const SizedBox(height: 15),
-
-            ]
-          
-          ), // This trailing comma makes auto-formatting nicer for build methods.
+              Button(
+                text: 'Change Profile Picture',
+                onTap: changeUser,
+              ),
+            ]),
+            const SizedBox(height: 15),
+            const Row(children: [
+              Text(
+                'Settings',
+                style: TextStyle(
+                  color: AppColors.grayBlue,
+                  fontSize: 30,
+                ),
+              )
+            ]),
+            const SizedBox(height: 15),
+          ]), // This trailing comma makes auto-formatting nicer for build methods.
         ),
       ),
       bottomNavigationBar: MyNavBar(),
     );
   }
 }
-
-
-
