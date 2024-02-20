@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:relay/colors/colors.dart';
 import 'package:relay/components/navbar.dart';
-import 'package:relay/pages/chatpage.dart';
-import 'package:relay/pages/profile.dart';
-import 'package:relay/pages/settings.dart';
 
 class MyHomePage extends StatefulWidget { // changed this to stateful widget
   const MyHomePage({super.key});
@@ -41,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       // navbar stuff
-      bottomNavigationBar: MyNavBar(),
+      bottomNavigationBar: MyNavBar(currentIndex: (0)),
     );
   }
 }

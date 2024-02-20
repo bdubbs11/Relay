@@ -71,10 +71,11 @@ class _SettingsPage extends State<SettingsPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
+          centerTitle: true,
           // TRY THIS: Try changing the color here to a specific color (to
           // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
           // change color while the other colors stay the same.
-          backgroundColor: AppColors.lightBrown,
+          backgroundColor: const Color.fromARGB(255, 147, 163, 188),
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
           title: const Text("Settings Page")),
@@ -152,7 +153,7 @@ class _SettingsPage extends State<SettingsPage> {
           }
         ),
       ),
-      bottomNavigationBar: MyNavBar(),
+      bottomNavigationBar: MyNavBar(currentIndex: (3)),
     );
   }
 }

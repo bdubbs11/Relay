@@ -40,7 +40,7 @@ class _ChatPageState extends State<ChatPage> {
                 Container(
                   padding: const EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
-                    color: AppColors.skyBlue,
+                    color: const Color.fromARGB(255, 147, 163, 188),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: Text(
@@ -65,7 +65,7 @@ class _ChatPageState extends State<ChatPage> {
         centerTitle: true,
         elevation: 0,
         title: Text(widget.contactName),
-        backgroundColor: AppColors.skyBlue,
+        backgroundColor: const Color.fromARGB(255, 147, 163, 188),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -76,7 +76,7 @@ class _ChatPageState extends State<ChatPage> {
                 },
         ),
       ),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: Column(
@@ -114,7 +114,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
       ),
-      bottomNavigationBar: MyNavBar(),
+      bottomNavigationBar: MyNavBar(currentIndex: (1)),
     );
   }
 }

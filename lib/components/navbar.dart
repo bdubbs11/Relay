@@ -7,72 +7,78 @@ import 'package:relay/pages/profile.dart';
 import 'package:relay/pages/settings.dart';
 
 
-class MyNavBar extends StatefulWidget { // changed this to stateful widget
+class MyNavBar extends StatefulWidget {
+  final int currentIndex;
 
-  const MyNavBar({super.key});
+  const MyNavBar({
+    Key? key,
+    required this.currentIndex,
+  }) : super(key: key);
 
   @override
   State<MyNavBar> createState() => _MyNavBarState();
 }
 
 class _MyNavBarState extends State<MyNavBar> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
-
-        color: AppColors.lightBrown,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
-          child: GNav(
-            backgroundColor: AppColors.lightBrown,
-            color: AppColors.grayBlue,
-            activeColor: AppColors.cloudBlue,
-            tabBackgroundColor: AppColors.darkBrown,
-            gap: 8,
-           
-            padding: const EdgeInsets.all(10),
-            tabs: [
-              GButton(
-                icon: Icons.home,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MyHomePage()),
-                  );
-                },
-                
-              ),// chat chat_bubble
-              GButton(
-                icon: Icons.add_comment,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ChatPage(contactName: 'Chris Haynes', userName: 'Adrian Lopez',)),
-                  );
-                },
-              ),
-              GButton(
-                icon: Icons.person,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ProfilePage()),
-                  );
-                },
-              ),
-              GButton(
-                icon: Icons.settings,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SettingsPage()),
-                  );
-                },
-              ),
-            ]
-          ),
+      color: AppColors.lightBrown,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+        child: GNav(
+          backgroundColor: AppColors.lightBrown,
+          color: AppColors.cloudBlue,
+          activeColor: AppColors.grayBlue,
+          tabBackgroundColor: AppColors.darkBrown,
+          gap: 8,
+          padding: const EdgeInsets.all(10),
+          tabs: [
+            GButton(
+              icon: Icons.home,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyHomePage()),
+                );
+              },
+            ),
+            GButton(
+              icon: Icons.add_comment,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ChatPage(
+                      contactName: 'Chris Haynes',
+                      userName: 'Adrian Lopez',
+                    ),
+                  ),
+                );
+              },
+            ),
+            GButton(
+              icon: Icons.person,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                );
+              },
+            ),
+            GButton(
+              icon: Icons.settings,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
+              },
+            ),
+          ],
+          selectedIndex: widget.currentIndex,
         ),
-      );
+      ),
+    );
   }
 }
