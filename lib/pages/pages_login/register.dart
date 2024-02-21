@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../colors/colors.dart';
 import '../../components/textfield.dart';
@@ -37,10 +38,25 @@ void signUserUp() async{
     try {
       // check if password is confirmed
       if(passwordController.text == confirmPasswordController.text){
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
+        // creating a user with firebase user auth
+        UserCredential userCreds = 
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        
+        // the users unique id
+        String uid = userCreds.user!.uid;
+
+        // creating the firebase storage for the user
+        await FirebaseFirestore.instance.collection('users').doc(uid).set({
+          // add email
+          'email': emailController.text,
+          
+        });
+
+
+
       }else{
         // show error message, passwords don't match
         showErrorMessage("Passwords don't match!");

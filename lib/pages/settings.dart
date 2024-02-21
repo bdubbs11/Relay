@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relay/components/button.dart';
 import 'package:relay/components/navbar.dart';
+import 'package:relay/pages/pages_login/loginorregister.dart';
 import '../colors/colors.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -60,6 +61,25 @@ class _SettingsPage extends State<SettingsPage> {
       },
     );
   }
+
+
+  // brandond added the sign out button 
+  void logOut() async {
+  try {
+    await FirebaseAuth.instance.signOut();
+    // Navigate back to the login page
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginOrRegisterPage()),
+    );
+  } catch (e) {
+    // Handle sign-out errors if necessary
+    print("Error signing out: $e");
+  }
+}
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -148,6 +168,15 @@ class _SettingsPage extends State<SettingsPage> {
                   )
                 ]),
                 const SizedBox(height: 15),
+
+
+                // brandon added this bc i need to be able to sign out
+              Button(
+                text: 'Log Out',
+                onTap: () => logOut(),
+              ),
+
+
               ]), // This trailing comma makes auto-formatting nicer for build methods.
             );
           }
