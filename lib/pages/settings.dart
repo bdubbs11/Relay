@@ -1,11 +1,11 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relay/components/button.dart';
 import 'package:relay/components/navbar.dart';
 import 'package:relay/pages/pages_login/loginorregister.dart';
 import '../colors/colors.dart';
+import 'package:relay/pages/pages_login/myhomepage.dart';
 
 class SettingsPage extends StatefulWidget {
   SettingsPage({super.key});
@@ -92,13 +92,18 @@ class _SettingsPage extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          // TRY THIS: Try changing the color here to a specific color (to
-          // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-          // change color while the other colors stay the same.
           backgroundColor: const Color.fromARGB(255, 147, 163, 188),
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: const Text("Settings Page")),
+          title: const Text("Settings"),
+          leading: IconButton(
+          icon: Image.asset("lib/images/blackLogo.png"),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MyHomePage()),
+            );
+          },
+        ),
+      ),
       body: SafeArea(        
         child: StreamBuilder<User?>(
           stream:  FirebaseAuth.instance.userChanges(),

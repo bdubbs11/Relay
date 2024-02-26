@@ -63,6 +63,8 @@ flutter:
   uses-material-design: true
   assets:
     - lib/images/beetlejuice.jpg
+    - lib/images/blackLogo.png
+    - lib/images/whiteLogo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

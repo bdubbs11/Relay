@@ -19,7 +19,7 @@ class _ProfilePageState extends State<ProfilePage> {
         title: const Text("Profile"), //Will display "User's Profile"
         backgroundColor: const Color.fromARGB(255, 147, 163, 188),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Image.asset("lib/images/blackLogo.png"),
           onPressed: () {
             Navigator.push(
               context,

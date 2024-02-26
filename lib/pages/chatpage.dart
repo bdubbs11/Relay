@@ -67,7 +67,7 @@ class _ChatPageState extends State<ChatPage> {
         title: Text(widget.contactName),
         backgroundColor: const Color.fromARGB(255, 147, 163, 188),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Image.asset("lib/images/blackLogo.png"),
           onPressed: () {
                   Navigator.push(
                     context,
