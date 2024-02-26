@@ -21,14 +21,16 @@ class Button extends StatelessWidget {
         padding: const EdgeInsets.all(25),
         margin: const  EdgeInsets.symmetric(horizontal: 25),
         decoration: BoxDecoration(
-          color: AppColors.grayBlue,
+          //color: AppColors.grayBlue,
+          color: AppColors.lightBrown,
           borderRadius: BorderRadius.circular(8)
           ),
         child: Center(
           child: Text(
             text,
             style:  const TextStyle(
-              color: AppColors.darkBrown,
+              //color: AppColors.darkBrown,
+              color: AppColors.cloudBlue,
               fontWeight: FontWeight.bold,
               fontSize: 18,
               ),

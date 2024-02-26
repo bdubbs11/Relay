@@ -27,14 +27,18 @@ class MyTextField extends StatelessWidget {
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.grayBlue)
+                  //borderSide: BorderSide(color: AppColors.lightBrown)
                   ),
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: AppColors.grayBlue),
+                    //borderSide: BorderSide(color: AppColors.lightBrown)
                   ),
                   fillColor:AppColors.grayBlue,
+                  //fillColor:AppColors.lightBrown,
                   filled: true,
                   hintText: hintText,
-                  hintStyle: const TextStyle(color: AppColors.darkBrown),  
+                  hintStyle: const TextStyle(color: AppColors.darkBrown),
+                  //hintStyle: const TextStyle(color: AppColors.cloudBlue),
               ),
             ),
           );

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:relay/colors/colors.dart';
 import 'package:relay/components/navbar.dart';
 import 'package:relay/pages/pages_login/myhomepage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class ChatPage extends StatefulWidget {
   final String contactName;
@@ -25,6 +27,21 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {
       messages.add(message);
     });
+  }
+
+  void sendMessage() {
+    String messageText = messageController.text.trim();
+
+    if (messageText.isNotEmpty) {
+      FirebaseFirestore.instance.collection('chatMessages').add({
+        'text': messageText,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+      setState(() {
+        messages.add(messageText);
+      });
+      messageController.clear();
+    }
   }
 
   Widget chat() {
@@ -100,11 +117,7 @@ class _ChatPageState extends State<ChatPage> {
                     IconButton(
                       icon: const Icon(Icons.send),
                       onPressed: () {
-                        String message = messageController.text;
-                        if (message.isNotEmpty) {
-                          addMessage(message);
-                          messageController.clear();
-                        }
+                        sendMessage();
                       },
                     ),
                   ],

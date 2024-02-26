@@ -100,7 +100,7 @@ void signUserUp() async{
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
 
-              const SizedBox(height: 200), 
+              const SizedBox(height: 100), 
               // Login text
               // optional logo or something around here
               const Text(

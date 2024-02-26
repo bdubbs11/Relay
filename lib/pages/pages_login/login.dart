@@ -68,7 +68,7 @@ void signUserIn() async{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightBrown,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -76,13 +76,13 @@ void signUserIn() async{
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
 
-              const SizedBox(height: 200), 
+              const SizedBox(height: 100), 
               // Login text
               // optional logo or something around here
               const Text(
                 'Login',
                 style: TextStyle(
-                  color: AppColors.grayBlue,
+                  color: AppColors.lightBrown,
                   fontSize: 50,
                 ),
               ),
@@ -116,7 +116,8 @@ void signUserIn() async{
                     children: [
                       Text(
                         'Forgot Password?',
-                        style: TextStyle(color: AppColors.cloudBlue),
+                        //style: TextStyle(color: AppColors.cloudBlue),
+                        style: TextStyle(color: AppColors.lightBrown),
                         ),
                     ],
                   ),
@@ -155,7 +156,8 @@ void signUserIn() async{
                   children: [
                     const Text(
                       'Don\'t have an account?',
-                      style: TextStyle(color: AppColors.cloudBlue),
+                      //style: TextStyle(color: AppColors.cloudBlue),
+                      style: TextStyle(color: AppColors.lightBrown),
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(
@@ -164,7 +166,8 @@ void signUserIn() async{
                       const Text(
                         'Sign up',
                         style :TextStyle(
-                          color: AppColors.skyBlue,
+                          //color: AppColors.skyBlue,
+                          color: AppColors.lightBrown,
                           fontWeight: FontWeight.bold,
                         ),
                         
