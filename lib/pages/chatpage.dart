@@ -40,7 +40,7 @@ class _ChatPageState extends State<ChatPage> {
                 Container(
                   padding: const EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 147, 163, 188),
+                    color: AppColors.relayBlue,
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: Text(
@@ -65,7 +65,7 @@ class _ChatPageState extends State<ChatPage> {
         centerTitle: true,
         elevation: 0,
         title: Text(widget.contactName),
-        backgroundColor: const Color.fromARGB(255, 147, 163, 188),
+        backgroundColor: AppColors.relayBlue,
         leading: IconButton(
           icon: Image.asset("lib/images/blackLogo.png"),
           onPressed: () {

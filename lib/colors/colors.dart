@@ -6,5 +6,5 @@ class AppColors {
   static const Color lightBrown = Color.fromRGBO(111, 88, 75, 1);
   static const Color grayBlue = Color.fromRGBO(143, 163, 179, 1);
   static const Color cloudBlue = Color.fromRGBO(204, 221, 226, 1);
-  
+  static const Color relayBlue = Color.fromARGB(255, 147, 163, 188);
 }

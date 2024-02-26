@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:relay/components/navbar.dart';
 import 'package:relay/pages/pages_login/myhomepage.dart';
+import 'package:relay/colors/colors.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -17,7 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
         centerTitle: true,
         elevation: 1,
         title: const Text("Profile"), //Will display "User's Profile"
-        backgroundColor: const Color.fromARGB(255, 147, 163, 188),
+        backgroundColor: AppColors.relayBlue,
         leading: IconButton(
           icon: Image.asset("lib/images/blackLogo.png"),
           onPressed: () {

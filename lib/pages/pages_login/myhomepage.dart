@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:relay/components/navbar.dart';
+import 'package:relay/colors/colors.dart';
 
 class MyHomePage extends StatefulWidget {
   // changed this to stateful widget
@@ -25,7 +26,22 @@ class _MyHomePageState extends State<MyHomePage> {
     final double horizontalPadding = 5;
     final double verticalPadding = 5;
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0,
+        title: Text("Relay"),
+        backgroundColor: AppColors.relayBlue,
+        leading: IconButton(
+          icon: Image.asset("lib/images/blackLogo.png"),
+          onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MyHomePage()),
+                  );
+                },
+        ),
+      ),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
