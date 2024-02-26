@@ -44,7 +44,7 @@ void signUserUp() async{
           email: emailController.text,
           password: passwordController.text,
         );
-        
+        FirebaseAuth.instance.currentUser!.updateDisplayName(emailController.text);
         // the users unique id
         String uid = userCreds.user!.uid;
 

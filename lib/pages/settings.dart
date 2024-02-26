@@ -123,7 +123,7 @@ class _SettingsPage extends State<SettingsPage> {
                 const SizedBox(height: 15),
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                   Text(
-                    "Username: ${user.email!}",
+                    "Username: ${user.displayName!}",
                     style: TextStyle(
                       color: AppColors.grayBlue,
                       fontSize: 20,
