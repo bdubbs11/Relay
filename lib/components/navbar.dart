@@ -50,7 +50,7 @@ class _MyNavBarState extends State<MyNavBar> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const ChatPage(
-                      contactName: 'Chris Haynes',
+                      contactName: 'Brandon Wilson',
                       userName: 'Adrian Lopez',
                     ),
                   ),

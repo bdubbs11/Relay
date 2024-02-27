@@ -29,13 +29,20 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
-  void sendMessage() {
+  void sendMessage(String conversationId) {
     String messageText = messageController.text.trim();
 
     if (messageText.isNotEmpty) {
-      FirebaseFirestore.instance.collection('chatMessages').add({
-        'text': messageText,
-        'timestamp': FieldValue.serverTimestamp(),
+      FirebaseFirestore.instance
+        .collection('conversations')
+        .doc(conversationId)
+        .collection('chatMessages')
+        .add({
+      'sender': widget.userName,
+      'text': messageText,
+      'timestamp': FieldValue.serverTimestamp(),
+      }).then((value) {
+      }).catchError((error) {
       });
       setState(() {
         messages.add(messageText);
@@ -100,7 +107,51 @@ class _ChatPageState extends State<ChatPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: chat(),
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('conversations')
+                      .doc('njgadaILA0g4uP0hT8hA') // Replace with the actual conversation ID
+                      .collection('chatMessages')
+                      .orderBy('timestamp') // Assuming you want to order messages by timestamp
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    var messages = snapshot.data!.docs;
+                    List<Widget> messageWidgets = [];
+
+                    for (var message in messages) {
+                      var sender = message['sender'];
+                      var messageText = message['text'];
+                      var alignment = (sender == widget.userName) ? Alignment.centerRight : Alignment.centerLeft;
+                      var messageWidget = Align(
+                        alignment: alignment,
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 50.0, right: 50.0),
+                          padding: const EdgeInsets.all(12.0),
+                          decoration: BoxDecoration(
+                            color: (sender == widget.contactName) ? AppColors.relayBlue : Colors.grey[300],
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Text(
+                            messageText,
+                            style: TextStyle(color: (sender == widget.contactName) ? Colors.white : Colors.black), // Adjust text color based on sender
+                          ),
+                        ),
+                      );
+
+                      messageWidgets.add(messageWidget);
+                    }
+
+                    return ListView(
+                      children: messageWidgets,
+                    );
+                  },
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -117,7 +168,7 @@ class _ChatPageState extends State<ChatPage> {
                     IconButton(
                       icon: const Icon(Icons.send),
                       onPressed: () {
-                        sendMessage();
+                        sendMessage('njgadaILA0g4uP0hT8hA');
                       },
                     ),
                   ],
@@ -127,7 +178,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
       ),
-      bottomNavigationBar: MyNavBar(currentIndex: (1)),
+      bottomNavigationBar: const MyNavBar(currentIndex: (1)),
     );
   }
 }
