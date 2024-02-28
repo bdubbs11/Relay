@@ -29,10 +29,10 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         ),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(30.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -48,13 +48,55 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
             ),
-             Divider(thickness: 2),
-             Text(
+
+            ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 50,
+                        color: AppColors.skyBlue,
+                        child: const Row(children: [
+                          Icon(Icons.email),
+                          Text("Email"),
+                          ],
+                        ),
+                      ),                 
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+
+
+            const Text(
               "Bio:",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Color.fromARGB(255, 111, 88, 75)),
             ),
+
+            Container(
+              height: 200,
+              width: 600,
+              decoration: BoxDecoration(
+                color: Colors.blue.shade50,
+                border: Border.all(
+                  color:AppColors.skyBlue,
+                  width: 1.5),
+                  borderRadius: const BorderRadius.all(Radius.circular(18)),               
+                ),
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                  Text("My favorite part of a retwist is being able to feel my scalp."),
+                ],
+              ), 
+            ),
+
              Divider(thickness: 2),
              TextSection(
                 bio:
