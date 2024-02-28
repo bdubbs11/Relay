@@ -6,6 +6,11 @@ import 'package:relay/components/navbar.dart';
 import 'package:relay/pages/pages_login/loginorregister.dart';
 import '../colors/colors.dart';
 import 'package:relay/pages/pages_login/myhomepage.dart';
+import 'dart:typed_data';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:relay/pages/utils.dart';
+import 'package:relay/components/add_data.dart';
 
 class SettingsPage extends StatefulWidget {
   SettingsPage({super.key});
@@ -15,10 +20,17 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPage extends State<SettingsPage> {
-
+  Uint8List? _image;
   final user = FirebaseAuth.instance.currentUser!;
   final userNameController = TextEditingController();
   final String _username = "Dev";
+
+  void selectImage() async {
+    Uint8List img = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = img;
+    });
+  }
 
   void changeUserName() async {
     try {
@@ -123,7 +135,7 @@ class _SettingsPage extends State<SettingsPage> {
                 const SizedBox(height: 15),
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                   Text(
-                    "Username: ${user.displayName!}",
+                    "Username: ${user.email!}",
                     style: TextStyle(
                       color: AppColors.grayBlue,
                       fontSize: 20,
@@ -150,13 +162,28 @@ class _SettingsPage extends State<SettingsPage> {
                 ]),
                 const SizedBox(height: 15),
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  Text(
-                    'Picture',
-                    style: TextStyle(
-                      color: AppColors.grayBlue,
-                      fontSize: 20,
+                  Stack(
+                children: [
+                  _image != null
+                      ? CircleAvatar(
+                          radius: 64,
+                          backgroundImage: MemoryImage(_image!),
+                        )
+                      : const CircleAvatar(
+                          radius: 64,
+                          backgroundImage: NetworkImage(
+                              'https://png.pngitem.com/pimgs/s/421-4212266_transparent-default-avatar-png-default-avatar-images-png.png'),
+                        ),
+                  Positioned(
+                    bottom: -10,
+                    left: 80,
+                    child: IconButton(
+                      onPressed: selectImage,
+                      icon: const Icon(Icons.add_a_photo),
                     ),
-                  ),
+                  )
+                ],
+              ),
                   Button(
                     text: 'Change Profile Picture',
                     onTap: changeUser,
