@@ -30,9 +30,11 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       body: Center(
+        
         child: Column(
           children: [
-            const Padding(
+            
+              const Padding(
               padding: EdgeInsets.all(30.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -49,58 +51,31 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
 
-            ListView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 50,
-                        color: AppColors.skyBlue,
-                        child: const Row(children: [
-                          Icon(Icons.email),
-                          Text("Email"),
-                          ],
-                        ),
-                      ),                 
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-
-
-            const Text(
+              const Text(
               "Bio:",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Color.fromARGB(255, 111, 88, 75)),
             ),
-
-            Container(
-              height: 200,
-              width: 600,
-              decoration: BoxDecoration(
-                color: Colors.blue.shade50,
-                border: Border.all(
-                  color:AppColors.skyBlue,
-                  width: 1.5),
-                  borderRadius: const BorderRadius.all(Radius.circular(18)),               
+             const Divider(thickness: 2),
+              ElevatedButton(
+              onPressed: null,
+              // style: ElevatedButton.styleFrom(
+              //   backgroundColor: Colors.amber[100],
+              //   foregroundColor: Colors.black,
+              //   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
+              //   textStyle: const TextStyle(
+              //     fontSize: 15,
+              //     fontWeight: FontWeight.bold
+              //   ),
+              // ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.grey[100]),
+                  foregroundColor: MaterialStateProperty.all(AppColors.relayBlue)
                 ),
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                  Text("My favorite part of a retwist is being able to feel my scalp."),
-                ],
-              ), 
-            ),
-
-             Divider(thickness: 2),
-             TextSection(
-                bio:
-                    "My favorite part of a retwist is being able to feel my scalp.")
+               child: const Text(
+                    "My favorite part of a retwist is being able to feel my scalp."),
+             ),
           ],
         ),
       ),
