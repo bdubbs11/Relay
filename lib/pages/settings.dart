@@ -142,7 +142,7 @@ class _SettingsPage extends State<SettingsPage> {
                     ),
                   ),
                   Button(
-                    text: 'Change Username',
+                    text: 'Edit',
                     onTap: changeUser,
                   ),
                 ]),
@@ -156,7 +156,7 @@ class _SettingsPage extends State<SettingsPage> {
                     ),
                   ),
                   Button(
-                    text: 'Change Biography',
+                    text: 'Edit Bio',
                     onTap: changeUser,
                   ),
                 ]),
@@ -185,7 +185,7 @@ class _SettingsPage extends State<SettingsPage> {
                 ],
               ),
                   Button(
-                    text: 'Change Profile Picture',
+                    text: 'Edit Picture',
                     onTap: changeUser,
                   ),
                 ]),
