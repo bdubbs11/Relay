@@ -91,7 +91,7 @@ void signUserUp() async{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightBrown,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -105,7 +105,7 @@ void signUserUp() async{
               const Text(
                 'Sign Up',
                 style: TextStyle(
-                  color: AppColors.grayBlue,
+                  color: AppColors.lightBrown,
                   fontSize: 50,
                 ),
               ),
@@ -172,7 +172,7 @@ void signUserUp() async{
                   children: [
                     const Text(
                       'Already have an account?',
-                      style: TextStyle(color: AppColors.cloudBlue),
+                      style: TextStyle(color: AppColors.lightBrown),
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(
@@ -181,7 +181,7 @@ void signUserUp() async{
                       const Text(
                         'Login now',
                         style :TextStyle(
-                          color: AppColors.skyBlue,
+                          color: AppColors.lightBrown,
                           fontWeight: FontWeight.bold,
                         ),
                         
