@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../../colors/colors.dart';
 import '../../components/textfield.dart';
@@ -44,16 +45,31 @@ void signUserUp() async{
           email: emailController.text,
           password: passwordController.text,
         );
-        // the users unique id
-        String uid = userCreds.user!.uid;
+        // // the users unique id
+        // String uid = userCreds.user!.uid;
 
-        // creating the firebase storage for the user
-        await FirebaseFirestore.instance.collection('users').doc(uid).set({
-          // add email
-          'email': emailController.text,
+        // // creating the firebase storage for the user
+        // await FirebaseFirestore.instance.collection('users').doc(uid).set({
+        //   // add email
+        //   'email': emailController.text,
           
+        // });
+
+        // realtime database 
+        // Get the user's unique ID
+        String uid = FirebaseAuth.instance.currentUser!.uid;
+
+        // Create a reference to the Realtime Database
+        DatabaseReference databaseReference = FirebaseDatabase.instance.ref('users/' + uid);
+        await databaseReference.set({
+          'email': emailController.text,
         });
 
+        // // Creating the Realtime Database entry for the user
+        // await databaseReference.child('users').child(uid).set({
+        //   'email': emailController.text,
+        //   // Add other fields as needed
+        // });
 
 
       }else{
