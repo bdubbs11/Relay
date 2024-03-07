@@ -110,9 +110,13 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       // Filtering and casting here
       Map<String?, dynamic> data = rawData
-          .cast<String?, dynamic>()
-          .map<String?, dynamic>((key, value) =>
-              MapEntry<String?, dynamic>(key?.toString(), value));
+          .cast<String?, dynamic>();
+
+          // this was added but doesnet need it to work.  our opionon
+          // .map<String?, dynamic>((key, value) =>
+          //     MapEntry<String?, dynamic>(key?.toString(), value));
+
+
       // mannnnnn idk why this bs works dont ask me twin
         final List<Widget> userWidgets = data.entries
           .where((entry) => _auth.currentUser!.email != entry.value['email'])
@@ -148,4 +152,15 @@ Widget _buildUserListItem(Map<dynamic, dynamic> data){
     return Container();
   }
 }
+}
+
+
+// this is a widget for the look of the messages
+class MessageTile extends StatelessWidget {
+  const MessageTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
 }
