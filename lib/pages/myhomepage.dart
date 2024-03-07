@@ -34,9 +34,14 @@ class SearchBar extends StatelessWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // firebase auth
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   final user = FirebaseAuth.instance.currentUser!;
+
+  // realtime
+  final DatabaseReference _databaseReference =
+      FirebaseDatabase.instance.ref().child('users');
+
 
   // void signUserOut() {
   //   FirebaseAuth.instance.signOut();
@@ -83,34 +88,50 @@ class _MyHomePageState extends State<MyHomePage> {
 // will need to switch to realtime just writing it out with firestore rn
   Widget _buildUserList(){
     return StreamBuilder(
-    stream: FirebaseFirestore.instance.collection('users').snapshots(), // Just a test stream
+    // stream for realtime
+    stream: _databaseReference.onValue,
+    // stream for firestore
+    //stream: FirebaseFirestore.instance.collection('users').snapshots(), // Just a test stream
     builder: (context, snapshot) {
       if (snapshot.hasError) {
         return Text('Error: ${snapshot.error}');
       }
-
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return Text('Loading...');
-      }
-        return ListView(
-          children: snapshot.data!.docs
-            .map<Widget>((doc) => _buildUserListItem(doc))
-            .toList(),
-        );
       
+      if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) {
+        return const Text('Loading...');
+      }
+
+     // idk bruh
+       DataSnapshot dataSnapshot = snapshot.data!.snapshot;
+      Map<dynamic, dynamic>? rawData = dataSnapshot.value as Map<dynamic, dynamic>?;
+
+      if (rawData == null) {
+        return const Text('No data available');
+      }
+      // Filtering and casting here
+      Map<String?, dynamic> data = rawData
+          .cast<String?, dynamic>()
+          .map<String?, dynamic>((key, value) =>
+              MapEntry<String?, dynamic>(key?.toString(), value));
+      // mannnnnn idk why this bs works dont ask me twin
+        final List<Widget> userWidgets = data.entries
+          .where((entry) => _auth.currentUser!.email != entry.value['email'])
+          .map<Widget>((entry) => _buildUserListItem(entry.value))
+          .toList();
+
+      return ListView(children: userWidgets);
     },
   );
   }
 
 
 // build indivual user list items
-Widget _buildUserListItem(DocumentSnapshot document){
-  Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+Widget _buildUserListItem(Map<dynamic, dynamic> data){
 
   // display all the users except for the current user 
   if(_auth.currentUser!.email != data['email']){
     return ListTile(
-      title: Text(data['email'] ?? 'No Email'),
+      title: Text(data['email'] ?? ' '),
       onTap: () {
         Navigator.push(
           context, 
