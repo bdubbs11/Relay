@@ -1,7 +1,13 @@
+import 'dart:js_interop_unsafe';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relay/components/navbar.dart';
 import 'package:relay/pages/pages_login/myhomepage.dart';
 import 'package:relay/colors/colors.dart';
+import 'dart:async';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:relay/components/add_data.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -11,6 +17,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final user = FirebaseAuth.instance.currentUser!;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,19 +39,18 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       body: Center(
-        
         child: Column(
           children: [
-            
-              const Padding(
+            const Padding(
               padding: EdgeInsets.all(30.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CircleAvatar(
-                    radius: 70, 
-                    backgroundImage: AssetImage('lib/images/beetlejuice.jpg'),),
-                    Text("Beetle Juice",
+                    radius: 70,
+                    backgroundImage: AssetImage('lib/images/beetlejuice.jpg'),
+                  ),
+                  Text("Beetle Juice",
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -50,55 +58,34 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
             ),
-
-              const Text(
+            const Text(
               "Bio:",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Color.fromARGB(255, 111, 88, 75)),
             ),
-             const Divider(thickness: 2),
-              ElevatedButton(
+            const Divider(thickness: 2),
+            ElevatedButton(
               onPressed: null,
-              // style: ElevatedButton.styleFrom(
-              //   backgroundColor: Colors.amber[100],
-              //   foregroundColor: Colors.black,
-              //   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
-              //   textStyle: const TextStyle(
-              //     fontSize: 15,
-              //     fontWeight: FontWeight.bold
-              //   ),
-              // ),
-                style: ButtonStyle(
+              style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.grey[100]),
-                  foregroundColor: MaterialStateProperty.all(AppColors.relayBlue)
-                ),
-               child: const Text(
-                    "My favorite part of a retwist is being able to feel my scalp."),
-             ),
+                  foregroundColor:
+                      MaterialStateProperty.all(AppColors.relayBlue)),
+              child: const Text(
+                  "My favorite part of a retwist is being able to feel my scalp."),
+            ),
           ],
         ),
       ),
       bottomNavigationBar: MyNavBar(currentIndex: (2)),
     );
   }
+
+
+  void displayProfile() async {
+    
+  }
 }
-
-// class ImageSection extends StatelessWidget {
-//   const ImageSection({super.key, required this.image});
-
-//   final String image;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Image.asset(
-//       image,
-//       width: 400,
-//       height: 120,
-//       fit: BoxFit.cover,
-//     );
-//   }
-// }
 
 class TextSection extends StatelessWidget {
   const TextSection({
