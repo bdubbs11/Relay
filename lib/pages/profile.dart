@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:relay/components/navbar.dart';
-import 'package:relay/pages/pages_login/myhomepage.dart';
+import 'package:relay/pages/myhomepage.dart';
 import 'package:relay/colors/colors.dart';
 
 class ProfilePage extends StatefulWidget {

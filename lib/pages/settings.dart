@@ -5,7 +5,7 @@ import 'package:relay/components/button.dart';
 import 'package:relay/components/navbar.dart';
 import 'package:relay/pages/pages_login/loginorregister.dart';
 import '../colors/colors.dart';
-import 'package:relay/pages/pages_login/myhomepage.dart';
+import 'package:relay/pages/myhomepage.dart';
 import 'dart:typed_data';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:image_picker/image_picker.dart';
