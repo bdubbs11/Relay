@@ -8,7 +8,7 @@ import 'package:relay/pages/TestChatPage.dart';
 import 'package:relay/pages/chatpage.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -134,19 +134,33 @@ Widget _buildUserListItem(Map<dynamic, dynamic> data){
 
   // display all the users except for the current user 
   if(_auth.currentUser!.email != data['email']){
-    return ListTile(
-      title: Text(data['email'] ?? ' '),
-      onTap: () {
-        Navigator.push(
-          context, 
-          MaterialPageRoute(
-            builder: (context) => TESTChatPage(
-              receiverUserEmail: data['email'],
-              // receiverUserId: data['uid'],
-            ),
-          )
-        );
-      }
+    return Container(
+      decoration: const BoxDecoration(
+      // need to have it where the line doesnt double up... and looks cleaner  coming from the search bar 
+      border: Border( bottom: BorderSide(color: Colors.grey) // Set bottom border color 
+         ),// Set border color 
+      ),
+      child: ListTile(
+        // will be the profile pic // Text(data['profilePic'])
+        leading: CircleAvatar(backgroundImage: AssetImage('/images/baseProfile.jpg')),// image path dont event work
+        // will be the email / username
+        title: Text(data['username']),
+        // will be the last message // Text(data['lastMessages']) // keep this constanly updated?
+        subtitle: Text(" this is the last message"),
+        // when last message was sent???  // Text(data['lastMessagesDate'])
+        trailing: Text("Yesterday"),
+        onTap: () {
+          Navigator.push(
+            context, 
+            MaterialPageRoute(
+              builder: (context) => TESTChatPage(
+                receiverUserEmail: data['email'],
+                // receiverUserId: data['uid'],
+              ),
+            )
+          );
+        }
+      ),
     );
   } else{
     return Container();
@@ -155,12 +169,28 @@ Widget _buildUserListItem(Map<dynamic, dynamic> data){
 }
 
 
-// this is a widget for the look of the messages
-class MessageTile extends StatelessWidget {
-  const MessageTile({super.key});
+// // this is a widget for the look of the messages
+// class MessageTile extends StatelessWidget {
+//   const MessageTile({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Row(
+//       children: [
+//       Padding(
+//         padding: const EdgeInsets.all(10.0),
+//         child: CircleAvatar(backgroundImage: AssetImage('/images/baseProfile.jpg')),
+//       ),// should be NetworkImage(url) i belive
+//       Expanded(
+//         child: Column(
+//           children: [
+//             Text(" username"),
+//             Text(" this is the last message"), // make this this the last message
+//           ],
+//         ),
+//       ),
+       
+//     ],
+//     );
+//   }
+// }

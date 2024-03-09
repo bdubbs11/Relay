@@ -63,6 +63,9 @@ void signUserUp() async{
         DatabaseReference databaseReference = FirebaseDatabase.instance.ref('users/' + uid);
         await databaseReference.set({
           'email': emailController.text,
+          'uid': uid,
+          //'profilePic' : 'lib/images/baseProfile.jpg',
+          'username' : emailController.text.split('@').first, // should get everything before the @ for the username
         });
 
         // // Creating the Realtime Database entry for the user
