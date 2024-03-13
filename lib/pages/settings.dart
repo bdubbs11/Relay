@@ -35,6 +35,10 @@ class _SettingsPage extends State<SettingsPage> {
 
   void changeUserName() async {
     try {
+        final userID = user.uid;  //Get UserID
+
+        // Coll
+
       // ignore: deprecated_member_use
       user.updateDisplayName(userNameController.text);
       CollectionReference collectionRef =
