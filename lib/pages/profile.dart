@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:relay/components/navbar.dart';
 import 'package:relay/pages/myhomepage.dart';
 import 'package:relay/colors/colors.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+
+
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
