@@ -65,6 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
+
 class TextSection extends StatelessWidget {
   const TextSection({
     super.key,
