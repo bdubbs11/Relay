@@ -9,10 +9,12 @@ import 'package:relay/pages/settings.dart';
 
 class MyNavBar extends StatefulWidget {
   final int currentIndex;
+  final String userID;
 
   const MyNavBar({
     Key? key,
     required this.currentIndex,
+    required this.userID,
   }) : super(key: key);
 
   @override
@@ -39,7 +41,7 @@ class _MyNavBarState extends State<MyNavBar> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MyHomePage()),
+                  MaterialPageRoute(builder: (context) => MyHomePage(userID: widget.userID)),
                 );
               },
             ),
@@ -49,7 +51,8 @@ class _MyNavBarState extends State<MyNavBar> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ChatPage(
+                    builder: (context) => ChatPage(
+                      userID: widget.userID,
                       contactName: 'Brandon Wilson',
                       userName: 'Adrian Lopez',
                     ),
@@ -62,7 +65,7 @@ class _MyNavBarState extends State<MyNavBar> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                  MaterialPageRoute(builder: (context) => ProfilePage(userID: widget.userID)),
                 );
               },
             ),
@@ -71,7 +74,7 @@ class _MyNavBarState extends State<MyNavBar> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                  MaterialPageRoute(builder: (context) => SettingsPage(userID: widget.userID)),
                 );
               },
             ),

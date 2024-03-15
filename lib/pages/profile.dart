@@ -4,7 +4,12 @@ import 'package:relay/pages/myhomepage.dart';
 import 'package:relay/colors/colors.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final String userID;
+
+  const ProfilePage({
+    Key? key,
+    required this.userID,
+  }) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -24,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const MyHomePage()),
+              MaterialPageRoute(builder: (context) => MyHomePage(userID: widget.userID)),
             );
           },
         ),
@@ -79,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       ),
-      bottomNavigationBar: MyNavBar(currentIndex: (2)),
+      bottomNavigationBar: MyNavBar(currentIndex: (2), userID: widget.userID),
     );
   }
 }

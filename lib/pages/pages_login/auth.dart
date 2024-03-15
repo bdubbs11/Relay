@@ -24,8 +24,8 @@ class AuthPage extends StatelessWidget {
         builder: (context, snapshot) {
           // if the user is logged in show the home page
           if(snapshot.hasData){
-            return const MyHomePage(); // devons home page
-            
+            //return MyHomePage(userID: snapshot.data!.uid); // devons home page
+            return MyHomePage(userID: 'WsH9GMdW69TyE0tlwFcTBpwlw7r1');
           }
           // if the user isn't logged in show the login/register page
           else{
