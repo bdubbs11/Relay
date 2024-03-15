@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relay/components/button.dart';
@@ -39,16 +40,24 @@ class _SettingsPage extends State<SettingsPage> {
 
   void changeUserName() async {
     try {
+        final userID = user.uid;  //Get UserID
+
+        // Coll
+
       // ignore: deprecated_member_use
       user.updateDisplayName(userNameController.text);
+      CollectionReference collectionRef =
+          FirebaseFirestore.instance.collection('userName');
+      collectionRef.add({
+        'userName': userNameController.text,
+      });
+
       await user.reload();
       userNameController.clear();
       print("Updated Display name:");
       print("${user.displayName}");
       Navigator.pop(context);
-    } on FirebaseException catch (e) {
-
-    }
+    } on FirebaseException catch (e) {}
   }
 
   void changeUser() async {
@@ -79,24 +88,20 @@ class _SettingsPage extends State<SettingsPage> {
     );
   }
 
-
-  // brandond added the sign out button 
+  // brandond added the sign out button
   void logOut() async {
-  try {
-    await FirebaseAuth.instance.signOut();
-    // Navigate back to the login page
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => LoginOrRegisterPage()),
-    );
-  } catch (e) {
-    // Handle sign-out errors if necessary
-    print("Error signing out: $e");
+    try {
+      await FirebaseAuth.instance.signOut();
+      // Navigate back to the login page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginOrRegisterPage()),
+      );
+    } catch (e) {
+      // Handle sign-out errors if necessary
+      print("Error signing out: $e");
+    }
   }
-}
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -108,10 +113,10 @@ class _SettingsPage extends State<SettingsPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: const Color.fromARGB(255, 147, 163, 188),
-          title: const Text("Settings"),
-          leading: IconButton(
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 147, 163, 188),
+        title: const Text("Settings"),
+        leading: IconButton(
           icon: Image.asset("lib/images/blackLogo.png"),
           onPressed: () {
             Navigator.push(
@@ -121,103 +126,105 @@ class _SettingsPage extends State<SettingsPage> {
           },
         ),
       ),
-      body: SafeArea(        
+      body: SafeArea(
         child: StreamBuilder<User?>(
-          stream:  FirebaseAuth.instance.userChanges(),
-          builder: (context, snapshot) {
-            return Center(
-              child:
-                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const Row(children: [
-                  Text(
-                    'Profile',
-                    style: TextStyle(
-                      color: AppColors.grayBlue,
-                      fontSize: 30,
-                    ),
-                  )
-                ]),
-                const SizedBox(height: 15),
-                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  Text(
-                    "Username: ${user.email!}",
-                    style: TextStyle(
-                      color: AppColors.grayBlue,
-                      fontSize: 20,
-                    ),
-                  ),
-                  Button(
-                    text: 'Edit',
-                    onTap: changeUser,
-                  ),
-                ]),
-                const SizedBox(height: 15),
-                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  Text(
-                    'Bio',
-                    style: TextStyle(
-                      color: AppColors.grayBlue,
-                      fontSize: 20,
-                    ),
-                  ),
-                  Button(
-                    text: 'Edit Bio',
-                    onTap: changeUser,
-                  ),
-                ]),
-                const SizedBox(height: 15),
-                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  Stack(
-                children: [
-                  _image != null
-                      ? CircleAvatar(
-                          radius: 64,
-                          backgroundImage: MemoryImage(_image!),
-                        )
-                      : const CircleAvatar(
-                          radius: 64,
-                          backgroundImage: NetworkImage(
-                              'https://png.pngitem.com/pimgs/s/421-4212266_transparent-default-avatar-png-default-avatar-images-png.png'),
+            stream: FirebaseAuth.instance.userChanges(),
+            builder: (context, snapshot) {
+              return Center(
+                child:
+                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  const Row(children: [
+                    Text(
+                      'Profile',
+                      style: TextStyle(
+                        color: AppColors.grayBlue,
+                        fontSize: 30,
+                      ),
+                    )
+                  ]),
+                  const SizedBox(height: 15),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Username: ${user.displayName}",
+                          style: TextStyle(
+                            color: AppColors.grayBlue,
+                            fontSize: 20,
+                          ),
                         ),
-                  Positioned(
-                    bottom: -10,
-                    left: 80,
-                    child: IconButton(
-                      onPressed: selectImage,
-                      icon: const Icon(Icons.add_a_photo),
-                    ),
-                  )
-                ],
-              ),
+                        Button(
+                          text: 'Edit',
+                          onTap: changeUser,
+                        ),
+                      ]),
+                  const SizedBox(height: 15),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Bio',
+                          style: TextStyle(
+                            color: AppColors.grayBlue,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Button(
+                          text: 'Edit Bio',
+                          onTap: changeUser,
+                        ),
+                      ]),
+                  const SizedBox(height: 15),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Stack(
+                          children: [
+                            _image != null
+                                ? CircleAvatar(
+                                    radius: 64,
+                                    backgroundImage: MemoryImage(_image!),
+                                  )
+                                : const CircleAvatar(
+                                    radius: 64,
+                                    backgroundImage: NetworkImage(
+                                        'https://png.pngitem.com/pimgs/s/421-4212266_transparent-default-avatar-png-default-avatar-images-png.png'),
+                                  ),
+                            Positioned(
+                              bottom: -10,
+                              left: 80,
+                              child: IconButton(
+                                onPressed: selectImage,
+                                icon: const Icon(Icons.add_a_photo),
+                              ),
+                            )
+                          ],
+                        ),
+                        Button(
+                          text: 'Edit Picture',
+                          onTap: changeUser,
+                        ),
+                      ]),
+                  const SizedBox(height: 15),
+                  const Row(children: [
+                    Text(
+                      'Settings',
+                      style: TextStyle(
+                        color: AppColors.grayBlue,
+                        fontSize: 30,
+                      ),
+                    )
+                  ]),
+                  const SizedBox(height: 15),
+
+                  // brandon added this bc i need to be able to sign out
                   Button(
-                    text: 'Edit Picture',
-                    onTap: changeUser,
+                    text: 'Log Out',
+                    onTap: () => logOut(),
                   ),
-                ]),
-                const SizedBox(height: 15),
-                const Row(children: [
-                  Text(
-                    'Settings',
-                    style: TextStyle(
-                      color: AppColors.grayBlue,
-                      fontSize: 30,
-                    ),
-                  )
-                ]),
-                const SizedBox(height: 15),
-
-
-                // brandon added this bc i need to be able to sign out
-              Button(
-                text: 'Log Out',
-                onTap: () => logOut(),
-              ),
-
-
-              ]), // This trailing comma makes auto-formatting nicer for build methods.
-            );
-          }
-        ),
+                ]), // This trailing comma makes auto-formatting nicer for build methods.
+              );
+            }),
       ),
       bottomNavigationBar: MyNavBar(currentIndex: (3), userID: widget.userID),
     );
