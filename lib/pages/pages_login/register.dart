@@ -48,13 +48,18 @@ void signUserUp() async{
         String uid = userCreds.user!.uid;
 
         // creating the firebase storage for the user
-        await FirebaseFirestore.instance.collection('users').doc(uid).set({
-          // add email
-          'email': emailController.text,
-          
-        });
-
-
+        FirebaseFirestore.instance
+            .collection("Users")
+            .doc(userCreds.user!.email!)
+            .set({
+              "username" : emailController.text.split('@')[0],
+              "bio" : "Empty Bio",
+              "photo" : 'https://png.pngitem.com/pimgs/s/421-4212266_transparent-default-avatar-png-default-avatar-images-png.png'
+            }
+            );
+        //adds them into the firebase currentuser datatbase as well
+        FirebaseAuth.instance.currentUser!.updateDisplayName(emailController.text.split('@')[0]);
+        FirebaseAuth.instance.currentUser!.updatePhotoURL('https://png.pngitem.com/pimgs/s/421-4212266_transparent-default-avatar-png-default-avatar-images-png.png');
 
       }else{
         // show error message, passwords don't match

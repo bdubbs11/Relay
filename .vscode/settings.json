@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "C:/Users/adria/OneDrive/FSC/Spring 2024/CSC 3400 (Software Engineering) Haynes/Relay/linux"
+    "cmake.sourceDirectory": "C:/Users/adria/OneDrive/FSC/Spring 2024/CSC 3400 (Software Engineering) Haynes/Relay/linux",
+    "cmake.configureOnOpen": false
 }

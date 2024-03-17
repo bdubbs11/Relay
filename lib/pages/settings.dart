@@ -12,6 +12,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:relay/pages/utils.dart';
 import 'package:relay/components/add_data.dart';
+import "package:relay/components/text_box.dart";
 
 class SettingsPage extends StatefulWidget {
   SettingsPage({super.key});
@@ -24,57 +25,46 @@ class _SettingsPage extends State<SettingsPage> {
   Uint8List? _image;
   final user = FirebaseAuth.instance.currentUser!;
   final userNameController = TextEditingController();
-  final String _username = "Dev";
+  final userCollection = FirebaseFirestore.instance.collection("Users");
+  
+
+  Future<void> editField(String field) async{
+    String newValue = "";
+    await showDialog(context: context, builder: (context) => AlertDialog(
+      title: Text("Edit " + field),
+      content: TextField(
+        autofocus: true, 
+        decoration: InputDecoration(hintText: "Enter new $field"),
+        onChanged: (value){
+          newValue = value;
+        }),
+
+        actions:[
+          TextButton(
+            child: Text("Cancel"),
+            onPressed: () => Navigator.pop(context)),
+
+            TextButton(
+            child: Text("Save"),
+            onPressed: () => Navigator.of(context).pop(newValue)),
+        ]
+    ),);
+
+    //update in firestore
+    if(newValue.trim().length > 0){
+      await userCollection.doc(user.email!).update({field: newValue});
+    }
+
+  }
 
   void selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
-    setState(() {
+    setState(() async{
       _image = img;
     });
   }
 
-  void changeUserName() async {
-    try {
-      // ignore: deprecated_member_use
-      user.updateDisplayName(userNameController.text);
-      CollectionReference collRef =
-          FirebaseFirestore.instance.collection('users');
-      collRef.add({'userName': userNameController.text}); // Line to change the username on firestore
-      await user.reload();
-      userNameController.clear();
-      print("Updated Display name:");
-      print("${user.displayName}");
-      Navigator.pop(context);
-    } on FirebaseException catch (e) {}
-  }
 
-  void changeUser() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Center(
-            child: Column(children: [
-              Text(
-                "Change the Username",
-                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-              ),
-              TextField(
-                controller: userNameController,
-              ),
-              ElevatedButton(
-                  onPressed: changeUserName,
-                  style: ButtonStyle(
-                      elevation: MaterialStateProperty.all(8),
-                      backgroundColor:
-                          MaterialStateProperty.all(AppColors.cloudBlue)),
-                  child: const Text('Submit')),
-            ]),
-          ),
-        );
-      },
-    );
-  }
 
   // brandond added the sign out button
   void logOut() async {
@@ -115,10 +105,13 @@ class _SettingsPage extends State<SettingsPage> {
         ),
       ),
       body: SafeArea(
-        child: StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.userChanges(),
+        child: StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance.collection("Users").doc(user.email).snapshots(),
             builder: (context, snapshot) {
-              return Center(
+              if(snapshot.hasData){
+                final userData = snapshot.data!.data() as Map<String, dynamic>;
+
+                return Center(
                 child:
                     Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   const Row(children: [
@@ -131,37 +124,19 @@ class _SettingsPage extends State<SettingsPage> {
                     )
                   ]),
                   const SizedBox(height: 15),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Username: ${user.displayName}",
-                          style: TextStyle(
-                            color: AppColors.grayBlue,
-                            fontSize: 20,
-                          ),
-                        ),
-                        Button(
-                          text: 'Edit',
-                          onTap: changeUser,
-                        ),
-                      ]),
+                  MyTextBox(
+                    text: userData['username'],
+                    sectionName: "username",
+                    onPressed: () => editField("username"),
+                  ),
+                 
                   const SizedBox(height: 15),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Bio',
-                          style: TextStyle(
-                            color: AppColors.grayBlue,
-                            fontSize: 20,
-                          ),
-                        ),
-                        Button(
-                          text: 'Edit Bio',
-                          onTap: changeUser,
-                        ),
-                      ]),
+                   MyTextBox(
+                    text: userData['bio'],
+                    sectionName: "Biography",
+                    onPressed: () => editField("bio"),
+                  ),
+        
                   const SizedBox(height: 15),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -171,7 +146,7 @@ class _SettingsPage extends State<SettingsPage> {
                             _image != null
                                 ? CircleAvatar(
                                     radius: 64,
-                                    backgroundImage: MemoryImage(_image!),
+                                    backgroundImage: NetworkImage(userData['photo']),
                                   )
                                 : const CircleAvatar(
                                     radius: 64,
@@ -188,10 +163,7 @@ class _SettingsPage extends State<SettingsPage> {
                             )
                           ],
                         ),
-                        Button(
-                          text: 'Edit Picture',
-                          onTap: changeUser,
-                        ),
+                        
                       ]),
                   const SizedBox(height: 15),
                   const Row(children: [
@@ -211,7 +183,13 @@ class _SettingsPage extends State<SettingsPage> {
                     onTap: () => logOut(),
                   ),
                 ]), // This trailing comma makes auto-formatting nicer for build methods.
-              );
+              ); 
+              }else if (snapshot.hasError){
+                return Center(child: Text("Error:${snapshot.error}"),);
+              }
+              
+              return const Center(child: CircularProgressIndicator(),);
+
             }),
       ),
       bottomNavigationBar: MyNavBar(currentIndex: (3)),
