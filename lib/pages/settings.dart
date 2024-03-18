@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:relay/pages/utils.dart';
 import 'package:relay/components/add_data.dart';
 import "package:relay/components/text_box.dart";
+import 'package:firebase_storage/firebase_storage.dart';
 
 class SettingsPage extends StatefulWidget {
   SettingsPage({super.key});
@@ -26,6 +27,8 @@ class _SettingsPage extends State<SettingsPage> {
   final user = FirebaseAuth.instance.currentUser!;
   final userNameController = TextEditingController();
   final userCollection = FirebaseFirestore.instance.collection("Users");
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+
   
 
   Future<void> editField(String field) async{
@@ -57,10 +60,20 @@ class _SettingsPage extends State<SettingsPage> {
 
   }
 
+  Future<String> uploadImageToStorage(String childName,Uint8List file) async {
+    Reference ref = _storage.ref().child(childName);
+    UploadTask uploadTask = ref.putData(file);
+    TaskSnapshot snapshot = await uploadTask;
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
   void selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
     setState(() async{
       _image = img;
+      String imageUrl = await uploadImageToStorage('profileImage', img);
+      await userCollection.doc(user.email!).update({'photo': imageUrl});
     });
   }
 
