@@ -131,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListTile(
           // Profile picture
           leading:
-              CircleAvatar(backgroundImage: AssetImage('/images/baseProfile.jpg')),
+              CircleAvatar(backgroundImage: AssetImage('lib/images/baseProfile.jpg')),
           // Username
           title: Text(data['username']),
           // Last message
@@ -168,7 +168,7 @@ class MessageTile extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(10.0),
-          child: CircleAvatar(backgroundImage: AssetImage('/images/baseProfile.jpg')),
+          child: CircleAvatar(backgroundImage: AssetImage('lib/images/baseProfile.jpg')),
         ),
         Expanded(
           child: Column(
