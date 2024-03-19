@@ -6,9 +6,6 @@ import 'package:relay/pages/myhomepage.dart';
 import 'package:relay/colors/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-
-
-
 class ProfilePage extends StatefulWidget {
   final String userID;
 
@@ -22,55 +19,61 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-      // Grab the Current user by the neck
-    final userMan = FirebaseAuth.instance.currentUser!;
+  // Grab the Current user by the neck
+  final userMan = FirebaseAuth.instance.currentUser!; //The user
 
   @override
-        // Redesign Portion
+  // Redesign Portion
 
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
         backgroundColor: AppColors.grayBlue,
       ),
-
       body: ListView(
         children: [
-
-        const SizedBox(height: 45),
+          const SizedBox(height: 45),
 
           // Profile Pic goes here
-       const CircleAvatar(
-          radius: 70, 
-          backgroundImage: AssetImage('lib/images/beetlejuice.jpg'),),  //Replace with PFP from Firestore
-        
-        const SizedBox(height:15),
+          const CircleAvatar(
+            radius: 100,
+            backgroundImage: AssetImage('lib/images/beetlejuice.jpg'),
+          ), //Replace with PFP from Firestore
+
+          const SizedBox(height: 15),
 
           // Display Email here
-        Text(userMan.email!,
-        textAlign: TextAlign.center,
-        style: const TextStyle(color: Colors.black)),
+          Text(userMan.email!,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: AppColors.grayBlue,
+              fontSize: 20)),
 
+          const SizedBox(height: 45),
 
-        const SizedBox(height: 45),
-
+// [';p;?"""""""""""""'] <-- Contributions from my cat
 
           // Display Username in large here
-        const MyTextBox(text: 'Beetle Juice', sectionName: 'username', icon: Icon(Icons.person, color: AppColors.skyBlue,),),
-
+          MyTextBox(
+            text: userMan.displayName.toString(),
+            sectionName: 'username',
+            icon: const Icon(
+              Icons.person,
+              color: AppColors.skyBlue,
+            ),
+          ),
 
           // Paragraph bio underneath
-        const MyTextBox(text: 'empty Bio', sectionName: 'bio', icon: Icon(Icons.notes, color: AppColors.skyBlue)),
-
+          const MyTextBox(
+              text: 'Empty Status',
+              sectionName: 'Status',
+              icon: Icon(Icons.notes, color: AppColors.skyBlue)),
         ],
-
       ),
       bottomNavigationBar: MyNavBar(currentIndex: (2), userID: widget.userID),
     );
   }
 }
-
 
 class TextSection extends StatelessWidget {
   const TextSection({
