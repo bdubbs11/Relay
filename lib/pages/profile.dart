@@ -20,18 +20,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final user = FirebaseAuth.instance.currentUser!;
 
-  Future<String> getData(field) async{
-    var collection = FirebaseFirestore.instance.collection('users');
-    var docSnapshot = await collection.doc('doc_id').get();
-    if (docSnapshot.exists) {
-        Map<String, dynamic>? data = docSnapshot.data();
-        var value = data?[field]; // <-- The value you want to retrieve. 
-        // Call setState if needed.
-        return value;
-    }
-    return "";
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,8 +41,8 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Center(
           child: StreamBuilder<DocumentSnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection("Users")
-                  .doc(user.email!)
+                  .collection("users")
+                  .doc(user.uid!)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
@@ -77,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   AssetImage('lib/images/beetlejuice.jpg'),
                             ),
                             
-                            Text(userData['username'],
+                            Text(userData['username']!,
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,

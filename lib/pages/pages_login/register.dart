@@ -49,8 +49,8 @@ void signUserUp() async{
 
         // creating the firebase storage for the user
         FirebaseFirestore.instance
-            .collection("Users")
-            .doc(userCreds.user!.email!)
+            .collection("users")
+            .doc(userCreds.user!.uid)
             .set({
               "username" : emailController.text.split('@')[0],
               "bio" : "Empty Bio",
