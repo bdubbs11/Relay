@@ -70,11 +70,15 @@ class _SettingsPage extends State<SettingsPage> {
 
   void selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
-    setState(() async{
+    print("After issue");
+    setState((){
       _image = img;
-      String imageUrl = await uploadImageToStorage('profileImage', img);
-      await userCollection.doc(user.email!).update({'photo': imageUrl});
     });
+    print("picture changed");
+    //String imageUrl = await uploadImageToStorage('profileImage', img);
+    print("check 1");
+    await userCollection.doc(user.email!).update({'photo': img as Uint8List});
+    print("picture updated");
   }
 
 
@@ -159,7 +163,7 @@ class _SettingsPage extends State<SettingsPage> {
                             _image != null
                                 ? CircleAvatar(
                                     radius: 64,
-                                    backgroundImage: NetworkImage(userData['photo']),
+                                    backgroundImage: MemoryImage(userData['photo']),
                                   )
                                 : const CircleAvatar(
                                     radius: 64,
