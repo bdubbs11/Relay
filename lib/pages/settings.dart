@@ -26,7 +26,7 @@ class _SettingsPage extends State<SettingsPage> {
   Uint8List? _image;
   final user = FirebaseAuth.instance.currentUser!;
   final userNameController = TextEditingController();
-  final userCollection = FirebaseFirestore.instance.collection("Users");
+  final userCollection = FirebaseFirestore.instance.collection("users");
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
   
@@ -55,7 +55,7 @@ class _SettingsPage extends State<SettingsPage> {
 
     //update in firestore
     if(newValue.trim().length > 0){
-      await userCollection.doc(user.email!).update({field: newValue});
+      await userCollection.doc(user.uid!).update({field: newValue});
     }
 
   }
@@ -77,7 +77,7 @@ class _SettingsPage extends State<SettingsPage> {
     print("picture changed");
     //String imageUrl = await uploadImageToStorage('profileImage', img);
     print("check 1");
-    await userCollection.doc(user.email!).update({'photo': img as Uint8List});
+    await userCollection.doc(user.email!).update({'photo': img});
     print("picture updated");
   }
 
@@ -123,7 +123,7 @@ class _SettingsPage extends State<SettingsPage> {
       ),
       body: SafeArea(
         child: StreamBuilder<DocumentSnapshot>(
-            stream: FirebaseFirestore.instance.collection("Users").doc(user.email).snapshots(),
+            stream: FirebaseFirestore.instance.collection("users").doc(user.uid).snapshots(),
             builder: (context, snapshot) {
               if(snapshot.hasData){
                 final userData = snapshot.data!.data() as Map<String, dynamic>;
@@ -163,7 +163,7 @@ class _SettingsPage extends State<SettingsPage> {
                             _image != null
                                 ? CircleAvatar(
                                     radius: 64,
-                                    backgroundImage: MemoryImage(userData['photo']),
+                                    backgroundImage: MemoryImage(_image!),
                                   )
                                 : const CircleAvatar(
                                     radius: 64,
