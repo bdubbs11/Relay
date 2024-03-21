@@ -7,11 +7,9 @@ import 'package:relay/pages/TestChatPage.dart';
 
 // Home page widget
 class MyHomePage extends StatefulWidget {
-  final String userID;
 
   const MyHomePage({
     Key? key,
-    required this.userID,
   }) : super(key: key);
 
   @override
@@ -61,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyHomePage(userID: widget.userID)),
+              MaterialPageRoute(builder: (context) => MyHomePage()),
             );
           },
         ),
@@ -81,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      bottomNavigationBar: MyNavBar(currentIndex: (0), userID: widget.userID),
+      bottomNavigationBar: MyNavBar(currentIndex: (0)),
     );
   }
 
@@ -151,7 +149,6 @@ class _MyHomePageState extends State<MyHomePage> {
                  builder: (context) => TestChatPage(
                   contactName: data['username'],
                   userName: username,
-                  userID: widget.userID,
                 ),
               ),
             );

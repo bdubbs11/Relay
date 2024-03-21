@@ -7,11 +7,9 @@ import 'package:relay/colors/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String userID;
 
   const ProfilePage({
     Key? key,
-    required this.userID,
   }) : super(key: key);
 
   @override
@@ -70,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
               icon: Icon(Icons.notes, color: AppColors.skyBlue)),
         ],
       ),
-      bottomNavigationBar: MyNavBar(currentIndex: (2), userID: widget.userID),
+      bottomNavigationBar: MyNavBar(currentIndex: (2)),
     );
   }
 }

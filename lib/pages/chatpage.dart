@@ -8,13 +8,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ChatPage extends StatefulWidget {
   final String contactName;
   final String userName;
-  final String userID;
 
   const ChatPage({
     Key? key,
     required this.contactName,
     required this.userName,
-    required this.userID,
   }) : super(key: key);
 
   @override
@@ -97,7 +95,7 @@ class _ChatPageState extends State<ChatPage> {
           onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MyHomePage(userID: widget.userID)),
+                    MaterialPageRoute(builder: (context) => MyHomePage()),
                   );
                 },
         ),
@@ -180,7 +178,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
       ),
-      bottomNavigationBar: MyNavBar(currentIndex: (1), userID: widget.userID),
+      bottomNavigationBar: MyNavBar(currentIndex: (1)),
     );
   }
 }

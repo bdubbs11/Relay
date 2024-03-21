@@ -7,13 +7,11 @@ import 'package:relay/pages/myhomepage.dart';
 class TestChatPage extends StatefulWidget {
   final String contactName;
   final String userName;
-  final String userID;
 
   const TestChatPage({
     Key? key,
     required this.contactName,
     required this.userName,
-    required this.userID,
   }) : super(key: key);
 
   @override
@@ -31,7 +29,7 @@ void initState() {
   super.initState();
   // Adjust the reference to fetch messages from the appropriate conversation based on usernames
   String conversationId = generateConversationId(widget.contactName, widget.userName);
-  messagesReference = FirebaseDatabase.instance.reference().child('conversations').child(conversationId);
+  messagesReference = FirebaseDatabase.instance.ref().child('conversations').child(conversationId);
   messagesReference.onChildAdded.listen((event) {
     setState(() {
       messages.add(event.snapshot.value.toString()); // Cast to String
@@ -69,7 +67,7 @@ void initState() {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyHomePage(userID: widget.userID)),
+              MaterialPageRoute(builder: (context) => MyHomePage()),
             );
           },
         ),
@@ -136,7 +134,7 @@ void initState() {
           ),
         ),
       ),
-      bottomNavigationBar: MyNavBar(currentIndex: (1), userID: widget.userID),
+      bottomNavigationBar: MyNavBar(currentIndex: (1)),
     );
   }
 }

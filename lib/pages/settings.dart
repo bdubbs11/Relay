@@ -14,11 +14,9 @@ import 'package:relay/pages/utils.dart';
 import 'package:relay/components/add_data.dart';
 
 class SettingsPage extends StatefulWidget {
-  final String userID;
 
   const SettingsPage({
     Key? key,
-    required this.userID,
   }) : super(key: key);
 
   @override
@@ -121,7 +119,7 @@ class _SettingsPage extends State<SettingsPage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyHomePage(userID: widget.userID)),
+              MaterialPageRoute(builder: (context) => MyHomePage()),
             );
           },
         ),
@@ -226,7 +224,7 @@ class _SettingsPage extends State<SettingsPage> {
               );
             }),
       ),
-      bottomNavigationBar: MyNavBar(currentIndex: (3), userID: widget.userID),
+      bottomNavigationBar: MyNavBar(currentIndex: (3)),
     );
   }
 }
