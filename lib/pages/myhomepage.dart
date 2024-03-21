@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:relay/components/navbar.dart';
 import 'package:relay/colors/colors.dart';
 import 'package:relay/pages/TestChatPage.dart';
-import 'package:relay/pages/chatpage.dart';
 
 // Home page widget
 class MyHomePage extends StatefulWidget {
@@ -40,6 +39,7 @@ class SearchBar extends StatelessWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String username = '';
   // Firebase authentication instance
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final user = FirebaseAuth.instance.currentUser!;
@@ -108,6 +108,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
         Map<String, dynamic> data = rawData.cast<String, dynamic>();
 
+        data.entries.forEach((entry) {
+          if (_auth.currentUser!.email == entry.value['email']) {
+            username = entry.value['username'];
+          }
+        });
+
         final List<Widget> userWidgets = data.entries
             .where((entry) => _auth.currentUser!.email != entry.value['email'])
             .map<Widget>((entry) => _buildUserListItem(entry.value))
@@ -142,9 +148,9 @@ class _MyHomePageState extends State<MyHomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TestChatPage(
+                 builder: (context) => TestChatPage(
                   contactName: data['username'],
-                  userName: "TestUser",
+                  userName: username,
                   userID: widget.userID,
                 ),
               ),
