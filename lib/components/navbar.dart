@@ -44,7 +44,7 @@ class _MyNavBarState extends State<MyNavBar> {
               },
             ),
             GButton(
-              icon: Icons.add_comment,
+              icon: Icons.smart_toy_outlined,
               onPressed: () {
                 Navigator.push(
                   context,
