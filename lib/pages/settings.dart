@@ -6,7 +6,7 @@ import 'package:relay/components/button.dart';
 import 'package:relay/components/navbar.dart';
 import 'package:relay/pages/pages_login/loginorregister.dart';
 import '../colors/colors.dart';
-import 'package:relay/pages/pages_login/myhomepage.dart';
+import 'package:relay/pages/myhomepage.dart';
 import 'dart:typed_data';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +16,12 @@ import "package:relay/components/text_box.dart";
 import 'package:firebase_storage/firebase_storage.dart';
 
 class SettingsPage extends StatefulWidget {
-  SettingsPage({super.key});
+  final String userID;
+
+  const SettingsPage({
+    Key? key,
+    required this.userID,
+  }) : super(key: key);
 
   @override
   State<SettingsPage> createState() => _SettingsPage();
@@ -74,14 +79,57 @@ class _SettingsPage extends State<SettingsPage> {
     setState((){
       _image = img;
     });
-    print("picture changed");
-    //String imageUrl = await uploadImageToStorage('profileImage', img);
-    print("check 1");
-    await userCollection.doc(user.email!).update({'photo': img});
-    print("picture updated");
   }
 
+  void changeUserName() async {
+    try {
+        final userID = user.uid;  //Get UserID
 
+        // Coll
+
+      // ignore: deprecated_member_use
+      user.updateDisplayName(userNameController.text);
+      CollectionReference collectionRef =
+          FirebaseFirestore.instance.collection('userName');
+      collectionRef.add({
+        'userName': userNameController.text,
+      });
+
+      await user.reload();
+      userNameController.clear();
+      print("Updated Display name:");
+      print("${user.displayName}");
+      Navigator.pop(context);
+    } on FirebaseException catch (e) {}
+  }
+
+  void changeUser() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Center(
+            child: Column(children: [
+              Text(
+                "Change the Username",
+                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+              ),
+              TextField(
+                controller: userNameController,
+              ),
+              ElevatedButton(
+                  onPressed: changeUserName,
+                  style: ButtonStyle(
+                      elevation: MaterialStateProperty.all(8),
+                      backgroundColor:
+                          MaterialStateProperty.all(AppColors.cloudBlue)),
+                  child: const Text('Submit')),
+            ]),
+          ),
+        );
+      },
+    );
+  }
 
   // brandond added the sign out button
   void logOut() async {
@@ -116,19 +164,16 @@ class _SettingsPage extends State<SettingsPage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const MyHomePage()),
+              MaterialPageRoute(builder: (context) => MyHomePage(userID: widget.userID)),
             );
           },
         ),
       ),
       body: SafeArea(
-        child: StreamBuilder<DocumentSnapshot>(
-            stream: FirebaseFirestore.instance.collection("users").doc(user.uid).snapshots(),
+        child: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.userChanges(),
             builder: (context, snapshot) {
-              if(snapshot.hasData){
-                final userData = snapshot.data!.data() as Map<String, dynamic>;
-
-                return Center(
+              return Center(
                 child:
                     Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   const Row(children: [
@@ -141,19 +186,37 @@ class _SettingsPage extends State<SettingsPage> {
                     )
                   ]),
                   const SizedBox(height: 15),
-                  MyTextBox(
-                    text: userData['username'],
-                    sectionName: "username",
-                    onPressed: () => editField("username"),
-                  ),
-                 
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Username: ${user.displayName}",
+                          style: TextStyle(
+                            color: AppColors.grayBlue,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Button(
+                          text: 'Edit',
+                          onTap: changeUser,
+                        ),
+                      ]),
                   const SizedBox(height: 15),
-                   MyTextBox(
-                    text: userData['bio'],
-                    sectionName: "Biography",
-                    onPressed: () => editField("bio"),
-                  ),
-        
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Bio',
+                          style: TextStyle(
+                            color: AppColors.grayBlue,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Button(
+                          text: 'Edit Bio',
+                          onTap: changeUser,
+                        ),
+                      ]),
                   const SizedBox(height: 15),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -180,7 +243,10 @@ class _SettingsPage extends State<SettingsPage> {
                             )
                           ],
                         ),
-                        
+                        Button(
+                          text: 'Edit Picture',
+                          onTap: changeUser,
+                        ),
                       ]),
                   const SizedBox(height: 15),
                   const Row(children: [
@@ -200,16 +266,10 @@ class _SettingsPage extends State<SettingsPage> {
                     onTap: () => logOut(),
                   ),
                 ]), // This trailing comma makes auto-formatting nicer for build methods.
-              ); 
-              }else if (snapshot.hasError){
-                return Center(child: Text("Error:${snapshot.error}"),);
-              }
-              
-              return const Center(child: CircularProgressIndicator(),);
-
+              );
             }),
       ),
-      bottomNavigationBar: MyNavBar(currentIndex: (3)),
+      bottomNavigationBar: MyNavBar(currentIndex: (3), userID: widget.userID),
     );
   }
 }

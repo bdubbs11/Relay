@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:relay/colors/colors.dart';
 import 'package:relay/pages/chatpage.dart';
-import 'package:relay/pages/pages_login/myhomepage.dart';
+import 'package:relay/pages/myhomepage.dart';
 import 'package:relay/pages/profile.dart';
 import 'package:relay/pages/settings.dart';
 
 
 class MyNavBar extends StatefulWidget {
   final int currentIndex;
+  final String userID;
 
   const MyNavBar({
     Key? key,
     required this.currentIndex,
+    required this.userID,
   }) : super(key: key);
 
   @override
@@ -39,7 +41,7 @@ class _MyNavBarState extends State<MyNavBar> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MyHomePage()),
+                  MaterialPageRoute(builder: (context) => MyHomePage(userID: widget.userID)),
                 );
               },
             ),
@@ -49,7 +51,8 @@ class _MyNavBarState extends State<MyNavBar> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ChatPage(
+                    builder: (context) => ChatPage(
+                      userID: widget.userID,
                       contactName: 'Brandon Wilson',
                       userName: 'Adrian Lopez',
                     ),
@@ -62,7 +65,7 @@ class _MyNavBarState extends State<MyNavBar> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                  MaterialPageRoute(builder: (context) => ProfilePage(userID: widget.userID)),
                 );
               },
             ),
@@ -71,7 +74,7 @@ class _MyNavBarState extends State<MyNavBar> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                  MaterialPageRoute(builder: (context) => SettingsPage(userID: widget.userID)),
                 );
               },
             ),

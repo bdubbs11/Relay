@@ -1,35 +1,44 @@
-import "package:flutter/material.dart";
-import "package:relay/colors/colors.dart";
-
+import 'package:flutter/material.dart';
+import 'package:relay/colors/colors.dart';
 
 class MyTextBox extends StatelessWidget {
+  // Data Members
   final String text;
   final String sectionName;
-  final void Function()? onPressed; 
-  const MyTextBox({super.key,required this.text,required this.sectionName,required this.onPressed});
+  final Icon icon;
+
+  //Constructor
+  const MyTextBox({
+    super.key,
+    required this.text,
+    required this.sectionName,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:BoxDecoration(
-        color:AppColors.lightBrown,
-        borderRadius: BorderRadius.circular(10)
-      ),
-      padding: EdgeInsets.only(left:15,right:15,bottom:10),
-      margin: EdgeInsets.only(left:20,right:20,top:20,bottom:10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(sectionName),
-            IconButton(onPressed: onPressed,icon: Icon(Icons.settings))
-          ],
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(10),
         ),
-        Text(text)
-      ],)
-
-    );
+        padding: const EdgeInsets.only(left: 15, bottom: 15),
+        margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(sectionName,
+                    style: const TextStyle(color: AppColors.skyBlue)),
+                icon,
+              ],
+            ),
+            Text(
+              text,
+            ),
+          ],
+        ));
   }
 }

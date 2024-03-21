@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../../colors/colors.dart';
 import '../../components/textfield.dart';
@@ -44,22 +45,35 @@ void signUserUp() async{
           email: emailController.text,
           password: passwordController.text,
         );
-        // the users unique id
-        String uid = userCreds.user!.uid;
+        // // the users unique id
+        // String uid = userCreds.user!.uid;
 
-        // creating the firebase storage for the user
-        FirebaseFirestore.instance
-            .collection("users")
-            .doc(userCreds.user!.uid)
-            .set({
-              "username" : emailController.text.split('@')[0],
-              "bio" : "Empty Bio",
-              "photo" : 'https://png.pngitem.com/pimgs/s/421-4212266_transparent-default-avatar-png-default-avatar-images-png.png'
-            }
-            );
-        //adds them into the firebase currentuser datatbase as well
-        FirebaseAuth.instance.currentUser!.updateDisplayName(emailController.text.split('@')[0]);
-        FirebaseAuth.instance.currentUser!.updatePhotoURL('https://png.pngitem.com/pimgs/s/421-4212266_transparent-default-avatar-png-default-avatar-images-png.png');
+        // // creating the firebase storage for the user
+        // await FirebaseFirestore.instance.collection('users').doc(uid).set({
+        //   // add email
+        //   'email': emailController.text,
+          
+        // });
+
+        // realtime database 
+        // Get the user's unique ID
+        String uid = FirebaseAuth.instance.currentUser!.uid;
+
+        // Create a reference to the Realtime Database
+        DatabaseReference databaseReference = FirebaseDatabase.instance.ref('users/' + uid);
+        await databaseReference.set({
+          'email': emailController.text,
+          'uid': uid,
+          //'profilePic' : 'lib/images/baseProfile.jpg',
+          'username' : emailController.text.split('@').first, // should get everything before the @ for the username
+        });
+
+        // // Creating the Realtime Database entry for the user
+        // await databaseReference.child('users').child(uid).set({
+        //   'email': emailController.text,
+        //   // Add other fields as needed
+        // });
+
 
       }else{
         // show error message, passwords don't match
@@ -96,7 +110,7 @@ void signUserUp() async{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightBrown,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -110,7 +124,7 @@ void signUserUp() async{
               const Text(
                 'Sign Up',
                 style: TextStyle(
-                  color: AppColors.grayBlue,
+                  color: AppColors.lightBrown,
                   fontSize: 50,
                 ),
               ),
@@ -177,7 +191,7 @@ void signUserUp() async{
                   children: [
                     const Text(
                       'Already have an account?',
-                      style: TextStyle(color: AppColors.cloudBlue),
+                      style: TextStyle(color: AppColors.lightBrown),
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(
@@ -186,7 +200,7 @@ void signUserUp() async{
                       const Text(
                         'Login now',
                         style :TextStyle(
-                          color: AppColors.skyBlue,
+                          color: AppColors.lightBrown,
                           fontWeight: FontWeight.bold,
                         ),
                         

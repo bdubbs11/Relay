@@ -1,112 +1,78 @@
-import 'dart:js_interop_unsafe';
-import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relay/components/navbar.dart';
-import 'package:relay/pages/pages_login/myhomepage.dart';
+import 'package:relay/components/text_box.dart';
+import 'package:relay/pages/myhomepage.dart';
 import 'package:relay/colors/colors.dart';
-import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:relay/components/add_data.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage({super.key});
+  final String userID;
+
+  const ProfilePage({
+    Key? key,
+    required this.userID,
+  }) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final user = FirebaseAuth.instance.currentUser!;
+  // Grab the Current user by the neck
+  final userMan = FirebaseAuth.instance.currentUser!; //The user
 
   @override
+  // Redesign Portion
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        elevation: 1,
-        title: const Text("Profile"), //Will display "User's Profile"
-        backgroundColor: AppColors.relayBlue,
-        leading: IconButton(
-          icon: Image.asset("lib/images/blackLogo.png"),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MyHomePage()),
-            );
-          },
-        ),
+        title: const Text('Profile'),
+        backgroundColor: AppColors.grayBlue,
       ),
-      body: Center(
-          child: StreamBuilder<DocumentSnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection("users")
-                  .doc(user.uid!)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final userData = snapshot.data!.data() as Map<String, dynamic>;
-                  var userDocument = snapshot.data;
+      body: ListView(
+        children: [
+          const SizedBox(height: 45),
 
+          // Profile Pic goes here
+          const CircleAvatar(
+            radius: 100,
+            backgroundImage: AssetImage('lib/images/beetlejuice.jpg'),
+          ), //Replace with PFP from Firestore
 
-                  
+          const SizedBox(height: 15),
 
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(30.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CircleAvatar(
-                              radius: 70,
-                              backgroundImage:
-                                  AssetImage('lib/images/beetlejuice.jpg'),
-                            ),
-                            
-                            Text(userData['username']!,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 111, 88, 75)))
-                          ],
-                        ),
-                      ),
-                      const Text(
-                        "Bio:",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 111, 88, 75)),
-                      ),
-                      const Divider(thickness: 2),
-                      ElevatedButton(
-                        onPressed: null,
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.grey[100]),
-                            foregroundColor:
-                                MaterialStateProperty.all(AppColors.relayBlue)),
-                        child: Text(
-                            userData['bio']),
-                      ),
-                    ],
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text("Error:${snapshot.error}"),
-                  );
-                }
+          // Display Email here
+          Text(userMan.email!,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: AppColors.grayBlue,
+              fontSize: 20)),
 
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              })),
-      bottomNavigationBar: MyNavBar(currentIndex: (2)),
+          const SizedBox(height: 45),
+
+// [';p;?"""""""""""""'] <-- Contributions from my cat
+
+          // Display Username in large here
+          MyTextBox(
+            text: userMan.displayName.toString(),
+            sectionName: 'username',
+            icon: const Icon(
+              Icons.person,
+              color: AppColors.skyBlue,
+            ),
+          ),
+
+          // Paragraph bio underneath
+          const MyTextBox(
+              text: 'Empty Status',
+              sectionName: 'Status',
+              icon: Icon(Icons.notes, color: AppColors.skyBlue)),
+        ],
+      ),
+      bottomNavigationBar: MyNavBar(currentIndex: (2), userID: widget.userID),
     );
   }
-
-  void displayProfile() async {}
 }
 
 class TextSection extends StatelessWidget {

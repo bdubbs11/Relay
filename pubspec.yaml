@@ -41,6 +41,7 @@ dependencies:
   cloud_firestore: ^4.15.5
   image_picker: ^0.8.7+1
   firebase_storage: ^11.1.0
+  firebase_database: ^10.4.7
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,8 @@ flutter:
     - lib/images/beetlejuice.jpg
     - lib/images/blackLogo.png
     - lib/images/whiteLogo.png
+    - lib/images/baseProfile.jpg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

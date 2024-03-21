@@ -4,7 +4,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relay/pages/pages_login/loginorregister.dart';
-import 'package:relay/pages/pages_login/myhomepage.dart';
+import 'package:relay/pages/myhomepage.dart';
 
 
 
@@ -24,8 +24,8 @@ class AuthPage extends StatelessWidget {
         builder: (context, snapshot) {
           // if the user is logged in show the home page
           if(snapshot.hasData){
-            return const MyHomePage(); // devons home page
-            
+            //return MyHomePage(userID: snapshot.data!.uid); // devons home page
+            return MyHomePage(userID: 'WsH9GMdW69TyE0tlwFcTBpwlw7r1');
           }
           // if the user isn't logged in show the login/register page
           else{

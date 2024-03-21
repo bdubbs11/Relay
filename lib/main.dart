@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:relay/pages/pages_login/auth.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 
 void main() async{

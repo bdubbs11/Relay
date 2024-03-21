@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:relay/colors/colors.dart';
 import 'package:relay/components/navbar.dart';
-import 'package:relay/pages/pages_login/myhomepage.dart';
+import 'package:relay/pages/myhomepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class ChatPage extends StatefulWidget {
   final String contactName;
   final String userName;
+  final String userID;
 
   const ChatPage({
     Key? key,
     required this.contactName,
     required this.userName,
+    required this.userID,
   }) : super(key: key);
 
   @override
@@ -95,7 +97,7 @@ class _ChatPageState extends State<ChatPage> {
           onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const MyHomePage()),
+                    MaterialPageRoute(builder: (context) => MyHomePage(userID: widget.userID)),
                   );
                 },
         ),
@@ -178,7 +180,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
       ),
-      bottomNavigationBar: const MyNavBar(currentIndex: (1)),
+      bottomNavigationBar: MyNavBar(currentIndex: (1), userID: widget.userID),
     );
   }
 }
