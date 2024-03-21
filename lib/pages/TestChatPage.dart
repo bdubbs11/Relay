@@ -83,9 +83,18 @@ void initState() {
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final messageParts = messages[index].split(", ");
+                    print(messageParts);
                     final textPart = messageParts
                         .firstWhere((part) => part.startsWith("text:"))
                         .substring("text: ".length);
+                    print(textPart);
+                    print(messageParts);
+                    final sender = messageParts
+                      .firstWhere((part) => part.startsWith("sender:"))
+                      .substring("ender: ".length);
+                    print(sender);
+                    print(messageParts);
+                    
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(

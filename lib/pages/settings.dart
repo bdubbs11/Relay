@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relay/components/button.dart';
 import 'package:relay/components/navbar.dart';
+import 'package:relay/pages/pages_login/auth.dart';
 import 'package:relay/pages/pages_login/loginorregister.dart';
 import '../colors/colors.dart';
 import 'package:relay/pages/myhomepage.dart';
@@ -86,14 +87,14 @@ class _SettingsPage extends State<SettingsPage> {
     );
   }
 
-  // brandond added the sign out button
+  //brandond added the sign out button
   void logOut() async {
     try {
       await FirebaseAuth.instance.signOut();
       // Navigate back to the login page
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginOrRegisterPage()),
+        MaterialPageRoute(builder: (context) => AuthPage()),
       );
     } catch (e) {
       // Handle sign-out errors if necessary
