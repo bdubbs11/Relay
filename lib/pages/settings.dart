@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relay/components/button.dart';
@@ -13,6 +12,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:relay/pages/utils.dart';
 import 'package:relay/components/add_data.dart';
+import "package:relay/components/textBox.dart";
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_database/firebase_database.dart';
+
 
 class SettingsPage extends StatefulWidget {
 
@@ -28,64 +31,60 @@ class _SettingsPage extends State<SettingsPage> {
   Uint8List? _image;
   final user = FirebaseAuth.instance.currentUser!;
   final userNameController = TextEditingController();
-  final String _username = "Dev";
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  String uid = FirebaseAuth.instance.currentUser!.uid;
+  DatabaseReference dbRef = FirebaseDatabase.instance.ref().child('users');
+
+  
+
+  Future<void> editField(String field) async{
+    String newValue = "";
+    await showDialog(context: context, builder: (context) => AlertDialog(
+      title: Text("Edit " + field),
+      content: TextField(
+        autofocus: true, 
+        decoration: InputDecoration(hintText: "Enter new $field"),
+        onChanged: (value){
+          newValue = value;
+        }),
+
+        actions:[
+          TextButton(
+            child: Text("Cancel"),
+            onPressed: () => Navigator.pop(context)),
+
+            TextButton(
+            child: Text("Save"),
+            onPressed: () => Navigator.of(context).pop(newValue)),
+        ]
+    ),);
+
+    //update in firestore
+    if(newValue.trim().length > 0){
+      await dbRef.set({
+        field : newValue,
+      });
+    }
+
+  }
+
+  Future<String> uploadImageToStorage(String childName,Uint8List file) async {
+    Reference ref = _storage.ref().child(childName);
+    UploadTask uploadTask = ref.putData(file);
+    TaskSnapshot snapshot = await uploadTask;
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
 
   void selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
-    setState(() {
+    print("After issue");
+    setState((){
       _image = img;
     });
   }
 
-  void changeUserName() async {
-    try {
-        final userID = user.uid;  //Get UserID
-
-        // Coll
-
-      // ignore: deprecated_member_use
-      user.updateDisplayName(userNameController.text);
-      CollectionReference collectionRef =
-          FirebaseFirestore.instance.collection('userName');
-      collectionRef.add({
-        'userName': userNameController.text,
-      });
-
-      await user.reload();
-      userNameController.clear();
-      print("Updated Display name:");
-      print("${user.displayName}");
-      Navigator.pop(context);
-    } on FirebaseException catch (e) {}
-  }
-
-  void changeUser() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Center(
-            child: Column(children: [
-              Text(
-                "Change the Username",
-                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-              ),
-              TextField(
-                controller: userNameController,
-              ),
-              ElevatedButton(
-                  onPressed: changeUserName,
-                  style: ButtonStyle(
-                      elevation: MaterialStateProperty.all(8),
-                      backgroundColor:
-                          MaterialStateProperty.all(AppColors.cloudBlue)),
-                  child: const Text('Submit')),
-            ]),
-          ),
-        );
-      },
-    );
-  }
+  
 
   //brandond added the sign out button
   void logOut() async {
@@ -126,10 +125,11 @@ class _SettingsPage extends State<SettingsPage> {
         ),
       ),
       body: SafeArea(
-        child: StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.userChanges(),
+        child: StreamBuilder(
+            stream: dbRef.onValue,
             builder: (context, snapshot) {
-              return Center(
+              if (snapshot.hasData){
+                return Center(
                 child:
                     Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   const Row(children: [
@@ -142,37 +142,17 @@ class _SettingsPage extends State<SettingsPage> {
                     )
                   ]),
                   const SizedBox(height: 15),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Username: ${user.displayName}",
-                          style: TextStyle(
-                            color: AppColors.grayBlue,
-                            fontSize: 20,
-                          ),
-                        ),
-                        Button(
-                          text: 'Edit',
-                          onTap: changeUser,
-                        ),
-                      ]),
+                  MyTextBox(
+                    text: dbRef.ref.child(uid).child("username").toString(),
+                    sectionName: "username",
+                    onPressed: () => editField("username"),
+                  ),
                   const SizedBox(height: 15),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Bio',
-                          style: TextStyle(
-                            color: AppColors.grayBlue,
-                            fontSize: 20,
-                          ),
-                        ),
-                        Button(
-                          text: 'Edit Bio',
-                          onTap: changeUser,
-                        ),
-                      ]),
+                  MyTextBox(
+                    text: dbRef.ref.child(uid).child("username").toString(),
+                    sectionName: "username",
+                    onPressed: () => editField("username"),
+                  ),
                   const SizedBox(height: 15),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -199,10 +179,7 @@ class _SettingsPage extends State<SettingsPage> {
                             )
                           ],
                         ),
-                        Button(
-                          text: 'Edit Picture',
-                          onTap: changeUser,
-                        ),
+                        
                       ]),
                   const SizedBox(height: 15),
                   const Row(children: [
@@ -223,6 +200,9 @@ class _SettingsPage extends State<SettingsPage> {
                   ),
                 ]), // This trailing comma makes auto-formatting nicer for build methods.
               );
+              }else{
+                return const Center(child: CircularProgressIndicator(),);
+              }
             }),
       ),
       bottomNavigationBar: MyNavBar(currentIndex: (3)),
