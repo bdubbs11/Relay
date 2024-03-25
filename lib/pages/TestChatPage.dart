@@ -27,18 +27,16 @@ class TestChatPageState extends State<TestChatPage> {
   @override
 void initState() {
   super.initState();
-  // Adjust the reference to fetch messages from the appropriate conversation based on usernames
   String conversationId = generateConversationId(widget.contactName, widget.userName);
   messagesReference = FirebaseDatabase.instance.ref().child('conversations').child(conversationId);
   messagesReference.onChildAdded.listen((event) {
     setState(() {
-      messages.add(event.snapshot.value.toString()); // Cast to String
+      messages.add(event.snapshot.value.toString());
     });
   });
 }
 
   String generateConversationId(String user1, String user2) {
-    // Custom logic to generate a unique conversation ID based on the usernames
     List<String> sortedUsernames = [user1, user2]..sort();
     return sortedUsernames.join('_');
   }
@@ -82,28 +80,50 @@ void initState() {
                 child: ListView.builder(
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
-                    final messageParts = messages[index].split(", ");
-                    final textPart = messageParts
-                      .firstWhere((part) => part.startsWith("text:"))
-                      .substring("text: ".length);
+                    final messageData = messages[index];
+                    final sender = messageData.substring(messageData.indexOf('sender: ') + 8, messageData.indexOf(', text: '));
+                    final text = messageData.substring(messageData.indexOf('text: ') + 6, messageData.indexOf(', time'));
+                    final isCurrentUser = sender == widget.userName;
+                    final maxWidth = MediaQuery.of(context).size.width * 0.8;
+
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: isCurrentUser ? MainAxisAlignment.end : MainAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.all(12.0),
-                              decoration: BoxDecoration(
-                                color: AppColors.relayBlue,
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Text(
-                                textPart,
-                                style: const TextStyle(color: Colors.white),
+                          isCurrentUser
+                              ? SizedBox(width: 8)
+                              : SizedBox(width: 0),
+                          ConstrainedBox(
+                            constraints: BoxConstraints(maxWidth: maxWidth),
+                            child: Align(
+                              alignment: isCurrentUser ? Alignment.topRight : Alignment.topLeft,
+                              child: Container(
+                                padding: const EdgeInsets.all(12.0),
+                                decoration: BoxDecoration(
+                                  color: isCurrentUser ? AppColors.relayBlue : Colors.grey[300]!,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      sender,
+                                      style: TextStyle(color:Colors.black, fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      text,
+                                      style: const TextStyle(color: Colors.black),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
+                          !isCurrentUser
+                              ? SizedBox(width: 8)
+                              : SizedBox(width: 0),
                         ],
                       ),
                     );
