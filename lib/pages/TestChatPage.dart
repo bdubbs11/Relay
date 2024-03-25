@@ -83,32 +83,25 @@ void initState() {
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final messageParts = messages[index].split(", ");
-                    print(messageParts);
                     final textPart = messageParts
-                        .firstWhere((part) => part.startsWith("text:"))
-                        .substring("text: ".length);
-                    print(textPart);
-                    print(messageParts);
-                    final sender = messageParts
-                      .firstWhere((part) => part.startsWith("sender:"))
-                      .substring("ender: ".length);
-                    print(sender);
-                    print(messageParts);
-                    
+                      .firstWhere((part) => part.startsWith("text:"))
+                      .substring("text: ".length);
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(12.0),
-                            decoration: BoxDecoration(
-                              color: AppColors.relayBlue,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: Text(
-                              textPart, // Displaying the message directly
-                              style: const TextStyle(color: Colors.white),
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.all(12.0),
+                              decoration: BoxDecoration(
+                                color: AppColors.relayBlue,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Text(
+                                textPart,
+                                style: const TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
                         ],
@@ -116,8 +109,8 @@ void initState() {
                     );
                   },
                 ),
-
               ),
+
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
