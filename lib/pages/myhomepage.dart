@@ -91,7 +91,6 @@ class _MyHomePageState extends State<MyHomePage> {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         }
-
         if (snapshot.connectionState == ConnectionState.waiting ||
             snapshot.data == null || snapshot.data!.snapshot == null) {
           return const Text('Loading...');

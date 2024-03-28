@@ -117,8 +117,18 @@ void signUserUp() async{
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("lib/images/blackLogo.png"),
+                    fit: BoxFit.contain, // Adjust this based on your image's aspect ratio
+                  ),
+                ),
+              ),
 
-              const SizedBox(height: 100), 
+              const SizedBox(height: 50), 
               // Login text
               // optional logo or something around here
               const Text(

@@ -18,6 +18,56 @@ class _LoginPageState extends State<LoginPage> {
 
   final passwordController = TextEditingController();
 
+  // Method to show dialog box to get user's email
+  Future<void> promptEmail() async {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Forgot Password'),
+        content: TextField(
+          controller: emailController,
+          decoration: InputDecoration(hintText: 'Enter your email'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              forgotPassword(emailController.text);
+            },
+            child: Text('Send'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Method to send password reset email
+  Future<void> forgotPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      // Show success message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Password reset email sent to $email'),
+          duration: Duration(seconds: 5),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      // Show error message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${e.message}'),
+          duration: Duration(seconds: 5),
+        ),
+      );
+    }
+  }
+
+
 // sign user in
 void signUserIn() async{
 
@@ -75,8 +125,18 @@ void signUserIn() async{
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+              Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("lib/images/blackLogo.png"),
+                    fit: BoxFit.contain, // Adjust this based on your image's aspect ratio
+                  ),
+                ),
+              ),
 
-              const SizedBox(height: 100), 
+              const SizedBox(height: 50), 
               // Login text
               // optional logo or something around here
               const Text(
@@ -109,19 +169,26 @@ void signUserIn() async{
               const SizedBox(height: 10), 
 
               // forgot password
-              const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Forgot Password?',
-                        //style: TextStyle(color: AppColors.cloudBlue),
-                        style: TextStyle(color: AppColors.lightBrown),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                      GestureDetector(
+                        onTap: () {
+                          promptEmail();
+                        },
+                        child: 
+                        Text(
+                          'Forgot Password?',
+                          //style: TextStyle(color: AppColors.cloudBlue),
+                          style: TextStyle(color: AppColors.lightBrown),
                         ),
+                      ),
                     ],
                   ),
                 ),
+
 
                 const SizedBox(height: 20), 
 
