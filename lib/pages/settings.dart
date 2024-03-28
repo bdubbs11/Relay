@@ -100,9 +100,10 @@ class _SettingsPage extends State<SettingsPage> {
       print("Error signing out: $e");
     }
   }
-
+  final userMan = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -143,13 +144,13 @@ class _SettingsPage extends State<SettingsPage> {
                   ]),
                   const SizedBox(height: 15),
                   MyTextBox(
-                    text: dbRef.ref.child(uid).child("username").toString(),
+                    text: userMan.displayName.toString(),
                     sectionName: "username",
                     onPressed: () => editField("username"),
                   ),
                   const SizedBox(height: 15),
                   MyTextBox(
-                    text: dbRef.ref.child(uid).child("username").toString(),
+                    text: userMan.displayName.toString(),
                     sectionName: "username",
                     onPressed: () => editField("username"),
                   ),
