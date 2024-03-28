@@ -61,7 +61,7 @@ class _SettingsPage extends State<SettingsPage> {
 
     //update in firestore
     if(newValue.trim().length > 0){
-      await dbRef.set({
+      await dbRef.child(uid).set({
         field : newValue,
       });
     }
