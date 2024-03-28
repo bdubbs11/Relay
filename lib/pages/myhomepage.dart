@@ -106,6 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Map<String, dynamic> data = rawData.cast<String, dynamic>();
 
         data.entries.forEach((entry) {
+          print(entry);
           if (_auth.currentUser!.email == entry.value['email']) {
             username = entry.value['username'];
           }
