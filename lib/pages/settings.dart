@@ -60,11 +60,14 @@ class _SettingsPage extends State<SettingsPage> {
     ),);
 
     //update in firestore
-    if(newValue.trim().length > 0){
-      await dbRef.child(uid).set({
-        field : newValue,
-      });
-    }
+    if (newValue.trim().length > 0) {
+    // Define the path to the username field
+    var updates = <String, Object?>{};
+    updates['/' + uid + '/username'] = newValue;
+
+    // Update the username field for the specified uid
+    await dbRef.update(updates);
+}
 
   }
 
@@ -144,15 +147,15 @@ class _SettingsPage extends State<SettingsPage> {
                   ]),
                   const SizedBox(height: 15),
                   MyTextBox(
-                    text: userMan.displayName.toString(),
+                    text: dbRef.child('/${uid}/username').onValue.toString(),
                     sectionName: "username",
                     onPressed: () => editField("username"),
                   ),
                   const SizedBox(height: 15),
                   MyTextBox(
                     text: userMan.displayName.toString(),
-                    sectionName: "username",
-                    onPressed: () => editField("username"),
+                    sectionName: "bio",
+                    onPressed: () => editField("bio"),
                   ),
                   const SizedBox(height: 15),
                   Row(
